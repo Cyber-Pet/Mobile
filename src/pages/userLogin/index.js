@@ -1,36 +1,48 @@
 import React from 'react'
-import { Image } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import { Background } from '../../components/Background'
 import { StyledContainer } from '../../components/StyledContainer'
 import { StyledInput } from '../../components/StyledInput'
 import { StyledText } from '../../components/StyledText'
 import { StyledSubmitButton } from '../../components/StyledSubmitButton'
+import { useNavigation } from '@react-navigation/native'
 
 export default function UserLogin() {
+    const navigation = useNavigation();
+
     return(
-        <Background>
-            <Image style={{marginTop: '15%'}} source={require('../../../assets/icon.png')} />
-
-            <StyledContainer color='#6C5B7B' width='90%' height='200px'>
-
+        <Background>          
+            <StyledContainer color='#6C5B7B' width='90%' height='200px' marginTop='40%' >
                 <StyledText>
                     E-mail
                 </StyledText>
-                <StyledInput style={{marginBottom: 10}} />
+                <StyledInput style={{ marginBottom: 10 }} />
 
                 <StyledText>
                     Senha
                 </StyledText>
-                <StyledInput/>
+                <StyledInput style={{ marginBottom: 30 }} />
 
-
+            <View style={{ alignItems: 'center' }} >
+                <StyledSubmitButton onPress={() => console.log('CYBERPET É FODA')} >
+                    <StyledText>
+                        Login
+                    </StyledText>
+                </StyledSubmitButton>
+            </View>
             </StyledContainer>
 
-            <StyledSubmitButton onPress={() => console.log('CYBERPET É FODA')} >
-                <StyledText>
-                    Login
+            <TouchableOpacity 
+                style={{ flexDirection: 'row', marginTop: 40 }} 
+                onPress={() => navigation.navigate('userRegistration')
+            }>
+                <StyledText fontWeight='normal' style={{ paddingRight: 5 }} >
+                    Não tem uma conta?
                 </StyledText>
-            </StyledSubmitButton>
+                <StyledText color='#F67280'>
+                    Cadastre-se.
+                </StyledText>
+            </TouchableOpacity>
         </Background>
     )
 }

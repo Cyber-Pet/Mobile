@@ -37,6 +37,7 @@ export default function StackNavigator() {
                 headerStyle: {
                     backgroundColor: '#F67280',
                 },
+                headerTintColor: '#fff',
                 headerTitleStyle: {
                     fontWeight: 'bold',
                     color: '#FFF',
