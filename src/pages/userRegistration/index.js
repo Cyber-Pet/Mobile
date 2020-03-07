@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native'
 import { Background } from '../../components/Background'
 import { StyledInput } from '../../components/StyledInput'
 import { StyledContainer } from '../../components/StyledContainer'
