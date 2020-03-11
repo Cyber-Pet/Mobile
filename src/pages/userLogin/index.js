@@ -21,7 +21,7 @@ export default function UserLogin() {
                 <StyledText>
                     Senha
                 </StyledText>
-                <StyledInput style={{ marginBottom: 30 }} />
+                <StyledInput secureTextEntry={true} style={{ marginBottom: 30 }} />
 
             <View style={{ alignItems: 'center' }} >
                 <StyledSubmitButton onPress={() => console.log('CYBERPET É FODA')} >
