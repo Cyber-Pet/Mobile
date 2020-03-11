@@ -6,6 +6,7 @@ import { StyledText } from '../../components/StyledText';
 import { StyledSubmitButton } from '../../components/StyledSubmitButton';
 import { View, TouchableOpacity } from 'react-native';
 import api from '../../services/api';
+import Dialog, { DialogContent } from 'react-native-popup-dialog';
 
 export default function UserRegistration() {
   const [ name, setName ] = useState('');
@@ -17,7 +18,7 @@ export default function UserRegistration() {
       name,
       email,
       password
-    }).then(() => {console.log('cadastrou')}, () => {console.log('deu merda')})
+    }).then(response => {console.log('Cadastrado com sucesso')})
   }
 
   return (
@@ -36,7 +37,7 @@ export default function UserRegistration() {
         </StyledText>
         <StyledInput secureTextEntry={true} value={password} style={{ marginBottom: 30}} onChangeText={setPassword}/>
         <View style={{ alignItems: 'center' }} >
-          <StyledSubmitButton onPress={addNewUser}>
+          <StyledSubmitButton onPress={addNewUser, this.setState({ visible: true })}>
             <StyledText>
               Cadastrar
             </StyledText>
