@@ -11,10 +11,11 @@ import api from '../../services/api'
 export default function UserLogin() {
     const navigation = useNavigation();
     const [ email, setEmail ] = useState();
-    const [ password, setPassword ] = useState();
+    const [password, setPassword] = useState();
+    const [unauthorizedText, setUnauthorizedText] = useState({ isVisible: false })
 
     async function loginRequest() {
-        api.post('/api/Auth/login',{
+        await api.post('/api/Auth/login',{
             email,
             password
         }).then(response => {
@@ -27,8 +28,15 @@ export default function UserLogin() {
         })
     }
 
+    function verifyUnauthorizedText() {
+        console.log(unauthorizedText.isVisible);
+    }
+
     return(
-        <Background>          
+        <Background>
+            <StyledText style={{ paddingTop: '5%' }} color='#FF0000'>
+                Usuário ou senha incorretos
+            </StyledText>
             <StyledContainer color='#6C5B7B' width='90%' height='200px' marginTop='40%' >
                 <StyledText>
                     E-mail
@@ -41,7 +49,7 @@ export default function UserLogin() {
                 <StyledInput secureTextEntry={true} style={{ marginBottom: 30 }} value={ password } onChangeText={ setPassword } />
 
             <View style={{ alignItems: 'center' }} >
-                <StyledSubmitButton onPress={(loginRequest)} >
+                <StyledSubmitButton onPress={loginRequest} >
                     <StyledText>
                         Login
                     </StyledText>
