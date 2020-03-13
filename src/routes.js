@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import PetRegistration from './pages/petRegistration/index'
 import UserRegistration from './pages/userRegistration/index'
 import UserLogin from './pages/userLogin/index'
+import Home from './pages/home/home'
 
 const Stack = createStackNavigator()
 
@@ -42,7 +43,19 @@ export default function StackNavigator() {
                     fontWeight: 'bold',
                     color: '#FFF',
                 },
-            }}/>
+            }} />
+            
+            <Stack.Screen name="home" component={Home} options={{
+                title: 'Inicio',
+                headerStyle: {
+                    backgroundColor: '#F67280',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                    color: '#FFF',
+                },
+            }} />
 
         </Stack.Navigator>
     )

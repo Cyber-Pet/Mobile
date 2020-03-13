@@ -17,8 +17,16 @@ export default function UserLogin() {
         api.post('/api/Auth/login',{
             email,
             password
-        }).then(response => console.log(response))
+        }).then(response => {
+            const statusCode = response.status
+            if (statusCode == 200) {
+                navigation.navigate('home')
+            }
+        }).catch(response => {
+            console.log(response)
+        })
     }
+
     return(
         <Background>          
             <StyledContainer color='#6C5B7B' width='90%' height='200px' marginTop='40%' >

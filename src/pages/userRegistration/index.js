@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native'
 import { Background } from '../../components/Background'
 import { StyledInput } from '../../components/StyledInput'
 import { StyledContainer } from '../../components/StyledContainer'
@@ -10,16 +11,26 @@ import api from '../../services/api';
 export default function UserRegistration() {  
   const [ name, setName ] = useState('');
   const [ email, setEmail ] = useState('');
-  const [ password, setPassword ] = useState('');
+  const [password, setPassword] = useState('');
+
+  const navigation = useNavigation();
 
   async function addNewUser() {
     await api.post('/api/Auth/register', {
       name,
       email,
       password
-    }).then(response => {console.log(response)})
-  }
+    }).then(response => {
+      const statusCode = response.status
 
+      if (statusCode == 201) {
+        navigation.navigate('home')
+      }
+
+    }).catch(response => {
+      console.log(response)
+    })
+  }
   return (
     <Background>
       <StyledContainer color='#6C5B7B' width='90%' height='400px' marginTop='40%' >
