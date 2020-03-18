@@ -25,12 +25,15 @@ export default function UserRegistration() {
 
       if (statusCode == 201) {
         navigation.navigate('home')
+      } else {
+        console.log(response)
       }
 
     }).catch(response => {
       console.log(response)
     })
   }
+
   return (
     <Background>
       <StyledContainer color='#6C5B7B' width='90%' height='400px' marginTop='40%' >

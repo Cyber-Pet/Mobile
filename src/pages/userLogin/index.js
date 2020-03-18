@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity, Vibration } from 'react-native'
 import { Background } from '../../components/Background'
 import { StyledContainer } from '../../components/StyledContainer'
 import { StyledInput } from '../../components/StyledInput'
@@ -12,8 +12,9 @@ export default function UserLogin() {
     const navigation = useNavigation();
     const [ email, setEmail ] = useState();
     const [password, setPassword] = useState();
-    const [unauthorizedText, setUnauthorizedText] = useState({ isVisible: false })
+    const [unauthorizedText, setUnauthorizedText] = useState(false)
 
+    
     async function loginRequest() {
         await api.post('/api/Auth/login',{
             email,
@@ -23,18 +24,18 @@ export default function UserLogin() {
             if (statusCode == 200) {
                 navigation.navigate('home')
             }
-        }).catch(response => {
-            console.log(response)
+        }).catch(() => {
+            setUnauthorizedText(true)
+            setTimeout(() => {
+                setUnauthorizedText(false)
+            }, 10000)
+            Vibration.vibrate(200)
         })
-    }
-
-    function verifyUnauthorizedText() {
-        console.log(unauthorizedText.isVisible);
     }
 
     return(
         <Background>
-            <StyledText style={{ paddingTop: '5%' }} color='#FF0000'>
+            <StyledText style={{ paddingTop: '5%', opacity: unauthorizedText ? 100 : 0 }} color='#FF0000'>
                 Usuário ou senha incorretos
             </StyledText>
             <StyledContainer color='#6C5B7B' width='90%' height='200px' marginTop='40%' >
