@@ -29,7 +29,7 @@ export default function UserLogin() {
             setTimeout(() => {
                 setUnauthorizedText(false)
             }, 10000)
-            Vibration.vibrate(200)
+            Vibration.vibrate(500)
         })
     }
 
