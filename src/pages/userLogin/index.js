@@ -1,10 +1,18 @@
 import React, { useState } from 'react'
-import { View, TouchableOpacity, Vibration, KeyboardAvoidingView } from 'react-native'
+import {
+    View, 
+    TouchableOpacity, 
+    Vibration, 
+    KeyboardAvoidingView, 
+    Modal,
+} from 'react-native'
+
 import { Background } from '../../components/Background'
 import { StyledContainer } from '../../components/StyledContainer'
 import { StyledInput } from '../../components/StyledInput'
 import { StyledText } from '../../components/StyledText'
 import { StyledSubmitButton } from '../../components/StyledSubmitButton'
+import { PopUpView } from '../../components/PopUpView'
 import { useNavigation } from '@react-navigation/native'
 import api from '../../services/api'
 
@@ -12,7 +20,7 @@ export default function UserLogin() {
     const navigation = useNavigation();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const [unauthorizedText, setUnauthorizedText] = useState(false)
+    const [modalVisible, setModalVisible] = useState(false)
 
     
     async function loginRequest() {
@@ -24,10 +32,11 @@ export default function UserLogin() {
             if (statusCode == 200) {
                 navigation.navigate('home')
             }
-        }).catch(() => {
-            setUnauthorizedText(true)
+        }).catch(error => {
+            console.log(error.response.data.errors)
+            setModalVisible(true)
             setTimeout(() => {
-                setUnauthorizedText(false)
+                setModalVisible(false)
             }, 10000)
             Vibration.vibrate(500)
         })
@@ -36,10 +45,28 @@ export default function UserLogin() {
     return(
         <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
             <Background>
-                <StyledText style={{ paddingTop: '5%', opacity: unauthorizedText ? 100 : 0 }} color='#FF0000'>
-                    Usuário ou senha incorretos
-                </StyledText>
-                <StyledContainer color='#6C5B7B' width='90%' height='200px' marginTop='40%' >
+                <Modal 
+                    animationType="fade"
+                    transparent={true}
+                    visible={modalVisible}
+                >
+                    <TouchableOpacity
+                        onPressOut={() => {setModalVisible(false)}}
+                        style={{
+                            flex: 1,
+                            alignItems: 'center',
+                            paddingTop: '20%'
+                        }} 
+                    >
+                        <PopUpView>
+                            <StyledText>
+                                oi
+                            </StyledText>
+                        </PopUpView>
+                    </TouchableOpacity>
+                </Modal>
+
+                <StyledContainer color='#6C5B7B' width='90%' height='40%' marginTop='40%' >
                     <StyledText>
                         E-mail
                     </StyledText>
