@@ -21,6 +21,7 @@ export default function UserLogin() {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [modalVisible, setModalVisible] = useState(false)
+    const [apiMessage, setApiMessage] = useState([])
 
     
     async function loginRequest() {
@@ -33,11 +34,11 @@ export default function UserLogin() {
                 navigation.navigate('home')
             }
         }).catch(error => {
-            console.log(error.response.data.errors)
             setModalVisible(true)
+            setApiMessage(error.response.data.errors)
             setTimeout(() => {
                 setModalVisible(false)
-            }, 10000)
+            }, 3000)
             Vibration.vibrate(500)
         })
     }
@@ -46,7 +47,7 @@ export default function UserLogin() {
         <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
             <Background>
                 <Modal 
-                    animationType="fade"
+                    animationType="slide"
                     transparent={true}
                     visible={modalVisible}
                 >
@@ -59,9 +60,13 @@ export default function UserLogin() {
                         }} 
                     >
                         <PopUpView>
-                            <StyledText>
-                                oi
-                            </StyledText>
+                                {apiMessage.map((message, index) => {
+                                    return(
+                                        <StyledText key={index} >
+                                            {`\u2022    ${message}`}
+                                        </StyledText>
+                                    )
+                                })}
                         </PopUpView>
                     </TouchableOpacity>
                 </Modal>
