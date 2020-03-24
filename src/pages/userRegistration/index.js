@@ -5,13 +5,22 @@ import { StyledInput } from '../../components/StyledInput'
 import { StyledContainer } from '../../components/StyledContainer'
 import { StyledText } from '../../components/StyledText';
 import { StyledSubmitButton } from '../../components/StyledSubmitButton';
-import { View, KeyboardAvoidingView } from 'react-native';
+import { PopUpView } from '../../components/PopUpView'
+import {
+  View, 
+  KeyboardAvoidingView, 
+  Modal,
+  TouchableOpacity,
+  Vibration
+} from 'react-native';
 import api from '../../services/api';
 
-export default function UserRegistration() {  
+export default function UserRegistration() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [modalVisible, setModalVisible] = useState(false)
+  const [apiMessage, setApiMessage] = useState([])
 
   const navigation = useNavigation();
 
@@ -25,31 +34,59 @@ export default function UserRegistration() {
 
       if (statusCode == 201) {
         navigation.navigate('home')
-      } else {
-        console.log(response)
       }
-
-    }).catch(response => {
-      console.log(response)
+    }).catch(error => {
+      setModalVisible(true)
+      setApiMessage(error.response.data.errors)
+      setTimeout(() => {
+          setModalVisible(false)
+      }, 3000)
+      Vibration.vibrate(500)
     })
   }
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
       <Background>
+
+        <Modal
+          animationType='slide'
+          transparent={true}
+          visible={modalVisible}
+        >
+          <TouchableOpacity
+            onPressOut={() => { setModalVisible(false) }}
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              paddingTop: '20%'
+            }}
+          >
+            <PopUpView>
+              {apiMessage.map((message, index) => {
+                return (
+                  <StyledText key={index} >
+                    {`\u2022    ${message}`}
+                  </StyledText>
+                )
+              })}
+            </PopUpView>
+          </TouchableOpacity>
+        </Modal>
+
         <StyledContainer color='#6C5B7B' width='90%' height='400px' marginTop='40%' >
           <StyledText>
             Nome
           </StyledText>
-          <StyledInput value={name} style={{ marginBottom: 10 }} onChangeText={setName}/>
+          <StyledInput value={name} style={{ marginBottom: 10 }} onChangeText={setName} />
           <StyledText>
             E-mail
           </StyledText>
-          <StyledInput value={email} style={{ marginBottom: 10}} onChangeText={setEmail}/>
+          <StyledInput value={email} style={{ marginBottom: 10 }} onChangeText={setEmail} />
           <StyledText>
             Senha
           </StyledText>
-          <StyledInput secureTextEntry={true} value={password} style={{ marginBottom: 30}} onChangeText={setPassword}/>
+          <StyledInput secureTextEntry={true} value={password} style={{ marginBottom: 30 }} onChangeText={setPassword} />
           <View style={{ alignItems: 'center' }} >
             <StyledSubmitButton onPress={addNewUser}>
               <StyledText>
