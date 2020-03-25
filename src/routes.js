@@ -14,7 +14,7 @@ export default function StackNavigator() {
             <Stack.Screen name="userLogin" component={UserLogin} options={{
                 title: 'CyberPet Login',
                 headerStyle: {
-                    backgroundColor: '#F67280',
+                    backgroundColor: '#836853',
                 },
                 headerTitleStyle: {
                     fontWeight: 'bold',
@@ -25,7 +25,7 @@ export default function StackNavigator() {
             <Stack.Screen name="petRegistration" component={PetRegistration} options={{
                 title: 'Cadastre o seu pet',
                 headerStyle: {
-                    backgroundColor: '#F67280',
+                    backgroundColor: '#836853',
                 },
                 headerTitleStyle: {
                     fontWeight: 'bold',
@@ -36,7 +36,7 @@ export default function StackNavigator() {
             <Stack.Screen name="userRegistration" component={UserRegistration} options={{
                 title: 'Cadastre o usuário',
                 headerStyle: {
-                    backgroundColor: '#F67280',
+                    backgroundColor: '#836853',
                 },
                 headerTintColor: '#fff',
                 headerTitleStyle: {
@@ -48,7 +48,7 @@ export default function StackNavigator() {
             <Stack.Screen name="home" component={Home} options={{
                 title: 'Inicio',
                 headerStyle: {
-                    backgroundColor: '#F67280',
+                    backgroundColor: '#836853',
                 },
                 headerTintColor: '#fff',
                 headerTitleStyle: {

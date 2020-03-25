@@ -2,11 +2,11 @@ import styled from 'styled-components/native'
 
 export const StyledInput = styled.TextInput`
     width: 100%;
-    background-color: #FFFFFF0F;
-    border-bottom-width: 1px;
-    border-bottom-color: #fff;
+    background-color: transparent;
+    border-width: 2px;
+    border-color: #988270;
     height: 45px;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    color: #fff;
+    border-radius: 5px;
+    color: #000000;
+    padding-left: 10px;
 `

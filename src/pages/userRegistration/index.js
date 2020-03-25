@@ -46,7 +46,7 @@ export default function UserRegistration() {
   }
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
       <Background>
 
         <Modal
@@ -74,22 +74,22 @@ export default function UserRegistration() {
           </TouchableOpacity>
         </Modal>
 
-        <StyledContainer color='#6C5B7B' width='90%' height='400px' marginTop='40%' >
+        <StyledContainer color='transparent' width='90%' height='400px' marginTop='40%' >
           <StyledText>
             Nome
           </StyledText>
-          <StyledInput value={name} style={{ marginBottom: 10 }} onChangeText={setName} />
+          <StyledInput placeholder='Informe seu Nome' value={name} style={{ marginBottom: 10 }} onChangeText={setName} />
           <StyledText>
             E-mail
           </StyledText>
-          <StyledInput value={email} style={{ marginBottom: 10 }} onChangeText={setEmail} />
+          <StyledInput placeholder='seunome@suaempresa.com' value={email} style={{ marginBottom: 10 }} onChangeText={setEmail} />
           <StyledText>
             Senha
           </StyledText>
-          <StyledInput secureTextEntry={true} value={password} style={{ marginBottom: 30 }} onChangeText={setPassword} />
+          <StyledInput placeholder='digite sua senha (min. 6 caracteres)' secureTextEntry={true} value={password} style={{ marginBottom: 30 }} onChangeText={setPassword} />
           <View style={{ alignItems: 'center' }} >
             <StyledSubmitButton onPress={addNewUser}>
-              <StyledText>
+              <StyledText color='#FFF'>
                 Cadastrar
               </StyledText>
             </StyledSubmitButton>

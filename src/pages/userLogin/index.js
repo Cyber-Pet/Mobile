@@ -71,20 +71,20 @@ export default function UserLogin() {
                     </TouchableOpacity>
                 </Modal>
 
-                <StyledContainer color='#6C5B7B' width='90%' height='40%' marginTop='40%' >
-                    <StyledText>
+                <StyledContainer color='transparent' width='90%' height='40%' marginTop='40%' >
+                    <StyledText color='#836853' >
                         E-mail
                     </StyledText>
-                    <StyledInput style={{ marginBottom: 10 }} value={ email } onChangeText={ setEmail }/>
+                    <StyledInput placeholder='seunome@suaempresa.com' style={{ marginBottom: 10 }} value={ email } onChangeText={ setEmail }/>
 
-                    <StyledText>
+                    <StyledText color='#836853' >
                         Senha
                     </StyledText>
-                    <StyledInput secureTextEntry={true} style={{ marginBottom: 30 }} value={ password } onChangeText={ setPassword } />
+                    <StyledInput placeholder='digite sua senha (min. 6 caracteres)' secureTextEntry={true} style={{ marginBottom: 30 }} value={ password } onChangeText={ setPassword } />
 
                 <View style={{ alignItems: 'center' }} >
                     <StyledSubmitButton onPress={loginRequest} >
-                        <StyledText>
+                        <StyledText color='#FFF' >
                             Login
                         </StyledText>
                     </StyledSubmitButton>
@@ -98,7 +98,7 @@ export default function UserLogin() {
                     <StyledText fontWeight='normal' style={{ paddingRight: 5 }} >
                         Não tem uma conta?
                     </StyledText>
-                    <StyledText color='#F67280'>
+                    <StyledText color='#836853'>
                         Cadastre-se.
                     </StyledText>
                 </TouchableOpacity>
