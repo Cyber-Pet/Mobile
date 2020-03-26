@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native'
 import { Background } from '../../components/Background'
 import { StyledInput } from '../../components/StyledInput'
@@ -7,43 +7,85 @@ import { StyledText } from '../../components/StyledText';
 import { StyledSubmitButton } from '../../components/StyledSubmitButton';
 import { PopUpView } from '../../components/PopUpView'
 import {
-  View, 
-  KeyboardAvoidingView, 
+  View,
+  KeyboardAvoidingView,
   Modal,
   TouchableOpacity,
   Vibration
 } from 'react-native';
 import api from '../../services/api';
+import axios from 'axios'
 
 export default function UserRegistration() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
   const [modalVisible, setModalVisible] = useState(false)
   const [apiMessage, setApiMessage] = useState([])
+  const [requestLoading, setRequestLoading] = useState(false)
 
   const navigation = useNavigation();
 
-  async function addNewUser() {
-    await api.post('/api/Auth/register', {
-      name,
-      email,
-      password
-    }).then(response => {
-      const statusCode = response.status
 
-      if (statusCode == 201) {
-        navigation.navigate('home')
+  // async function addNewUser() {
+  //   await api.post('/api/Auth/register', {
+  //     name,
+  //     email,
+  //     password
+  //   }, {
+  //     cancelToken: source.token
+  //   }).then(response => {
+  //     const statusCode = response.status
+
+  //     if (statusCode == 201) {
+  //       navigation.navigate('home')
+  //     }
+  //   }).catch(error => {
+  //     setModalVisible(true)
+  //     setApiMessage(error.response.data.errors)
+  //     setTimeout(() => {
+  //         setModalVisible(false)
+  //     }, 3000)
+  //     Vibration.vibrate(500)
+  //     console.log(email, password)
+  //   })
+  // }
+
+  useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source()
+    console.log('then1')
+    if(requestLoading){
+      async function addNewUser() {
+        await api.post('/api/Auth/register', {
+          name,
+          email,
+          password
+        }, {
+          cancelToken: source.token
+        }).then(response => {
+          const statusCode = response.status
+          console.log('then')
+          if (statusCode == 201) {
+            navigation.navigate('home')
+          }
+        }).catch(error => {
+          setModalVisible(true)
+          setApiMessage(error.response.data.errors)
+          setTimeout(() => {
+              setModalVisible(false)
+          }, 3000)
+          Vibration.vibrate(500)
+          console.log('catch')
+        }) 
       }
-    }).catch(error => {
-      setModalVisible(true)
-      setApiMessage(error.response.data.errors)
-      setTimeout(() => {
-          setModalVisible(false)
-      }, 3000)
-      Vibration.vibrate(500)
-    })
-  }
+      addNewUser()
+      return () => {
+        source.cancel()
+        console.log('return')
+      }
+    }
+  }, [requestLoading])
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
@@ -88,7 +130,7 @@ export default function UserRegistration() {
           </StyledText>
           <StyledInput placeholder='digite sua senha (min. 6 caracteres)' secureTextEntry={true} value={password} style={{ marginBottom: 30 }} onChangeText={setPassword} />
           <View style={{ alignItems: 'center' }} >
-            <StyledSubmitButton onPress={addNewUser}>
+            <StyledSubmitButton onPress={() => setRequestLoading(true)}>
               <StyledText color='#FFF'>
                 Cadastrar
               </StyledText>

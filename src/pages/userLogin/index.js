@@ -40,6 +40,7 @@ export default function UserLogin() {
                 setModalVisible(false)
             }, 3000)
             Vibration.vibrate(500)
+            console.log(email, password)
         })
     }
 
