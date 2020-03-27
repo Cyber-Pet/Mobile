@@ -5,7 +5,7 @@ import { StyledInput } from '../../components/StyledInput'
 import { StyledContainer } from '../../components/StyledContainer'
 import { StyledText } from '../../components/StyledText';
 import { StyledSubmitButton } from '../../components/StyledSubmitButton';
-import { PopUpView } from '../../components/PopUpView'
+import { PopUpView, PopUp } from '../../components/PopUpView'
 import {
   View,
   KeyboardAvoidingView,
@@ -26,44 +26,51 @@ export default function UserRegistration() {
 
   const navigation = useNavigation();
 
+  const modalHandler = () => {
+    modalVisible
+      ? setModalVisible(false)
+      : setModalVisible(true)
+  }
+
   async function createNewUser(source) {
     await api.post('/api/Auth/register', {
       name,
       email,
       password
-    },{
+    }, {
       cancelToken: source.token
     }).then(response => {
       const statusCode = response.status
       if (statusCode == 201) {
         navigation.navigate('home')
       }
-      
+
     }).catch(error => {
 
-      if(axios.isCancel(error)) {
+      if (axios.isCancel(error)) {
         console.log('Request canceled')
       } else {
-        setModalVisible(true)
+        modalHandler()
         console.log(modalVisible)
         setApiMessage(error.response.data.errors)
-          let timeOut = setTimeout(() => {
-            setRequestLoading(false)
-          }, 3000)
+        let timeOut = setTimeout(() => {
+          setRequestLoading(false)
+        }, 3000)
         Vibration.vibrate(500)
       }
-    }) 
+    })
   }
 
   useEffect(() => {
     const source = axios.CancelToken.source();
-    if(requestLoading){
+    if (requestLoading) {
       createNewUser(source)
 
       return () => {
+        clearTimeOut(timeOut)
         console.log('unmounting')
         console.log(modalVisible)
-        setModalVisible(false)
+        modalHandler()
         source.cancel()
       }
     }
@@ -72,32 +79,7 @@ export default function UserRegistration() {
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
       <Background>
-
-        <Modal
-          animationType='slide'
-          transparent={true}
-          visible={modalVisible}
-        >
-          <TouchableOpacity
-            onPressOut={() => { setModalVisible(false) }}
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              paddingTop: '20%'
-            }}
-          >
-            <PopUpView>
-              {apiMessage.map((message, index) => {
-                return (
-                  <StyledText key={index} >
-                    {`\u2022    ${message}`}
-                  </StyledText>
-                )
-              })}
-            </PopUpView>
-          </TouchableOpacity>
-        </Modal>
-
+        <PopUp changeState={modalHandler} />
         <StyledContainer color='transparent' width='90%' height='400px' marginTop='40%' >
           <StyledText>
             Nome
