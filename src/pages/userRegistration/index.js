@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native'
 import { Background } from '../../components/Background'
 import { StyledInput } from '../../components/StyledInput'
@@ -26,63 +26,45 @@ export default function UserRegistration() {
 
   const navigation = useNavigation();
 
+  async function createNewUser(source) {
+    await api.post('/api/Auth/register', {
+      name,
+      email,
+      password
+    },{
+      cancelToken: source.token
+    }).then(response => {
+      const statusCode = response.status
+      if (statusCode == 201) {
+        navigation.navigate('home')
+      }
+      
+    }).catch(error => {
 
-  // async function addNewUser() {
-  //   await api.post('/api/Auth/register', {
-  //     name,
-  //     email,
-  //     password
-  //   }, {
-  //     cancelToken: source.token
-  //   }).then(response => {
-  //     const statusCode = response.status
-
-  //     if (statusCode == 201) {
-  //       navigation.navigate('home')
-  //     }
-  //   }).catch(error => {
-  //     setModalVisible(true)
-  //     setApiMessage(error.response.data.errors)
-  //     setTimeout(() => {
-  //         setModalVisible(false)
-  //     }, 3000)
-  //     Vibration.vibrate(500)
-  //     console.log(email, password)
-  //   })
-  // }
+      if(axios.isCancel(error)) {
+        console.log('Request canceled')
+      } else {
+        setModalVisible(true)
+        console.log(modalVisible)
+        setApiMessage(error.response.data.errors)
+          let timeOut = setTimeout(() => {
+            setRequestLoading(false)
+          }, 3000)
+        Vibration.vibrate(500)
+      }
+    }) 
+  }
 
   useEffect(() => {
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source()
-    console.log('then1')
+    const source = axios.CancelToken.source();
     if(requestLoading){
-      async function addNewUser() {
-        await api.post('/api/Auth/register', {
-          name,
-          email,
-          password
-        }, {
-          cancelToken: source.token
-        }).then(response => {
-          const statusCode = response.status
-          console.log('then')
-          if (statusCode == 201) {
-            navigation.navigate('home')
-          }
-        }).catch(error => {
-          setModalVisible(true)
-          setApiMessage(error.response.data.errors)
-          setTimeout(() => {
-              setModalVisible(false)
-          }, 3000)
-          Vibration.vibrate(500)
-          console.log('catch')
-        }) 
-      }
-      addNewUser()
+      createNewUser(source)
+
       return () => {
+        console.log('unmounting')
+        console.log(modalVisible)
+        setModalVisible(false)
         source.cancel()
-        console.log('return')
       }
     }
   }, [requestLoading])
