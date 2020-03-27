@@ -48,9 +48,9 @@ export default function UserRegistration() {
       if (axios.isCancel(error)) {
         console.log('Request canceled')
       } else {
+        setApiMessage(error.response.data.errors)
         modalHandler()
         console.log(modalVisible)
-        setApiMessage(error.response.data.errors)
         setTimeout(() => {
           setRequestLoading(false)
         }, 3000)
