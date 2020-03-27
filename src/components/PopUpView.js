@@ -1,3 +1,9 @@
+import React, { useState, useEffect } from 'react';
+import { StyledText } from './StyledText';
+import {
+    Modal,
+    TouchableOpacity,
+  } from 'react-native';
 import styled from 'styled-components/native'
 
 export const PopUpView = styled.View`
@@ -14,7 +20,7 @@ export default PopUp = (props) => {
         <Modal
           animationType='slide'
           transparent={true}
-          visible={props.modalVisible}
+          visible={props.visible}
             >
             <TouchableOpacity
             onPressOut={() => { props.changeState}}
@@ -25,13 +31,13 @@ export default PopUp = (props) => {
             }}
             >
             <PopUpView  >
-              {apiMessage.map((message, index) => {
-                return (
-                  <StyledText key={index} >
-                    {`\u2022    ${message}`}
-                  </StyledText>
-                )
-              })}
+                    {props.message.map((message, index) => {
+                        return (
+                          <StyledText key={index} >
+                            {`\u2022    ${message}`}
+                          </StyledText>
+                        )
+                      })}
             </PopUpView>
         </TouchableOpacity>
           

@@ -5,12 +5,10 @@ import { StyledInput } from '../../components/StyledInput'
 import { StyledContainer } from '../../components/StyledContainer'
 import { StyledText } from '../../components/StyledText';
 import { StyledSubmitButton } from '../../components/StyledSubmitButton';
-import { PopUpView, PopUp } from '../../components/PopUpView'
+import PopUp from '../../components/PopUpView'
 import {
   View,
   KeyboardAvoidingView,
-  Modal,
-  TouchableOpacity,
   Vibration
 } from 'react-native';
 import api from '../../services/api';
@@ -79,7 +77,7 @@ export default function UserRegistration() {
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
       <Background>
-        <PopUp changeState={modalHandler} />
+        <PopUp visible={modalVisible} message={apiMessage} changeState={modalHandler} />
         <StyledContainer color='transparent' width='90%' height='400px' marginTop='40%' >
           <StyledText>
             Nome
