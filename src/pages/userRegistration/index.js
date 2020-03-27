@@ -25,9 +25,7 @@ export default function UserRegistration() {
   const navigation = useNavigation();
 
   const modalHandler = () => {
-    modalVisible
-      ? setModalVisible(false)
-      : setModalVisible(true)
+    modalVisible ? setModalVisible(false) : setModalVisible(true)
   }
 
   async function createNewUser(source) {

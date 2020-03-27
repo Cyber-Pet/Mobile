@@ -5,11 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Android (Hermes) - Experimental",
+            "name": "Attach to packager",
             "cwd": "${workspaceFolder}",
-            "type": "reactnativedirect",
-            "request": "launch",
-            "platform": "android"
-        },
+            "type": "reactnative",
+            "request": "attach",
+            "port": "19001"
+        }
     ]
 }
