@@ -51,7 +51,7 @@ export default function UserRegistration() {
         modalHandler()
         console.log(modalVisible)
         setApiMessage(error.response.data.errors)
-        let timeOut = setTimeout(() => {
+        setTimeout(() => {
           setRequestLoading(false)
         }, 3000)
         Vibration.vibrate(500)
@@ -65,7 +65,6 @@ export default function UserRegistration() {
       createNewUser(source)
 
       return () => {
-        clearTimeOut(timeOut)
         console.log('unmounting')
         console.log(modalVisible)
         modalHandler()
