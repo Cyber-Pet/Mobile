@@ -16,6 +16,10 @@ export const PopUpView = styled.View`
 `
 
 export default PopUp = (props) => {
+
+    setTimeout(() => {
+      props.closePopUp()
+    }, props.autoCloseIn);
     return (
         <Modal
           animationType='slide'
@@ -23,7 +27,7 @@ export default PopUp = (props) => {
           visible={props.visible}
             >
             <TouchableOpacity
-            onPressOut={() => { props.changeState}}
+            onPressOut={() => { props.closePopUp () }}
             style={{
               flex: 1,
               alignItems: 'center',

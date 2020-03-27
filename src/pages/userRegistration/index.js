@@ -15,83 +15,69 @@ import api from '../../services/api';
 import axios from 'axios'
 
 export default function UserRegistration() {
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const cancelationToken = axios.CancelToken.source()
+  const [values, setValues] = useState({
+    name: null,
+    email: null,
+    password: null
+  })
   const [modalVisible, setModalVisible] = useState(false)
   const [apiMessage, setApiMessage] = useState([])
-  const [requestLoading, setRequestLoading] = useState(false)
 
   const navigation = useNavigation();
 
-  const modalHandler = () => {
-    modalVisible
-      ? setModalVisible(false)
-      : setModalVisible(true)
-  }
+  const handleChange = (name, value) => {
+    setValues({ ...values, 
+      [name]: value });
+  };
 
-  async function createNewUser(source) {
-    await api.post('/api/Auth/register', {
-      name,
-      email,
-      password
-    }, {
-      cancelToken: source.token
+  const openPopUp = () => {
+    setModalVisible(true)
+  }
+  const closePopUp = () => {
+    setModalVisible(false)
+  }
+  const createNewUser = async () =>  {
+    await api.post('/api/Auth/register', values , {
+      cancelToken: cancelationToken.token
     }).then(response => {
       const statusCode = response.status
       if (statusCode == 201) {
         navigation.navigate('home')
       }
-
     }).catch(error => {
+      if (axios.isCancel(error)) return;
 
-      if (axios.isCancel(error)) {
-        console.log('Request canceled')
-      } else {
-        setApiMessage(error.response.data.errors)
-        modalHandler()
-        console.log(modalVisible)
-        setTimeout(() => {
-          setRequestLoading(false)
-        }, 3000)
-        Vibration.vibrate(500)
-      }
+      setApiMessage(error.response.data.errors)
+      openPopUp()
+      Vibration.vibrate(500)
     })
   }
-
   useEffect(() => {
-    const source = axios.CancelToken.source();
-    if (requestLoading) {
-      createNewUser(source)
-
-      return () => {
-        console.log('unmounting')
-        console.log(modalVisible)
-        modalHandler()
-        source.cancel()
-      }
+    return () => {
+      closePopUp()
+      cancelationToken.cancel()
     }
-  }, [requestLoading])
-
+  }, [])
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
       <Background>
-        <PopUp visible={modalVisible} message={apiMessage} changeState={modalHandler} />
+        <PopUp visible={modalVisible} message={apiMessage} closePopUp={closePopUp} autoCloseIn={3000} />
         <StyledContainer color='transparent' width='90%' height='400px' marginTop='40%' >
           <StyledText>
             Nome
           </StyledText>
-          <StyledInput placeholder='Informe seu Nome' value={name} style={{ marginBottom: 10 }} onChangeText={setName} />
+          <StyledInput placeholder='Informe seu Nome' value={values.name} style={{ marginBottom: 10 }} onChangeText={text => handleChange('name', text)} />
           <StyledText>
             E-mail
           </StyledText>
-          <StyledInput placeholder='seunome@suaempresa.com' value={email} style={{ marginBottom: 10 }} onChangeText={setEmail} />
+          <StyledInput placeholder='seunome@suaempresa.com' value={values.email} style={{ marginBottom: 10 }} onChangeText={text => handleChange('email', text)} />
           <StyledText>
             Senha
           </StyledText>
-          <StyledInput placeholder='digite sua senha (min. 6 caracteres)' secureTextEntry={true} value={password} style={{ marginBottom: 30 }} onChangeText={setPassword} />
+          <StyledInput placeholder='digite sua senha (min. 6 caracteres)' secureTextEntry={true} value={values.password} style={{ marginBottom: 30 }} onChangeText={text => handleChange('password', text)} />
           <View style={{ alignItems: 'center' }} >
-            <StyledSubmitButton onPress={() => setRequestLoading(true)}>
+            <StyledSubmitButton onPress={() => createNewUser()}>
               <StyledText color='#FFF'>
                 Cadastrar
               </StyledText>
