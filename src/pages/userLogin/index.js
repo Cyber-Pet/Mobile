@@ -73,19 +73,19 @@ export default function UserLogin() {
                 </Modal>
 
                 <StyledContainer color='transparent' width='90%' height='40%' marginTop='40%' >
-                    <StyledText color='#836853' >
+                    <StyledText color='#000' >
                         E-mail
                     </StyledText>
                     <StyledInput placeholder='seunome@suaempresa.com' style={{ marginBottom: 10 }} value={ email } onChangeText={ setEmail }/>
 
-                    <StyledText color='#836853' >
+                    <StyledText color='#000' >
                         Senha
                     </StyledText>
                     <StyledInput placeholder='digite sua senha (min. 6 caracteres)' secureTextEntry={true} style={{ marginBottom: 30 }} value={ password } onChangeText={ setPassword } />
 
                 <View style={{ alignItems: 'center' }} >
                     <StyledSubmitButton onPress={loginRequest} >
-                        <StyledText color='#FFF' >
+                        <StyledText color='#000' >
                             Login
                         </StyledText>
                     </StyledSubmitButton>
@@ -99,7 +99,7 @@ export default function UserLogin() {
                     <StyledText fontWeight='normal' style={{ paddingRight: 5 }} >
                         Não tem uma conta?
                     </StyledText>
-                    <StyledText color='#836853'>
+                    <StyledText color='#000'>
                         Cadastre-se.
                     </StyledText>
                 </TouchableOpacity>
