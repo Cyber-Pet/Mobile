@@ -7,12 +7,12 @@ import {
 import styled from 'styled-components/native'
 
 export const PopUpView = styled.View`
-    background-color: #836144;
+    background-color: rgba(247,245,242,0.7);
     width: 80%;
     height: 15%;
     justify-content: center;
+    text-align: center;
     padding-left: 20px;
-    border-width: 1px;
 `
 
 export default PopUp = (props) => {

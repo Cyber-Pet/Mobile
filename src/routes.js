@@ -14,7 +14,7 @@ export default function StackNavigator() {
             <Stack.Screen name="userLogin" component={UserLogin} options={{
                 title: 'CyberPet Login',
                 headerStyle: {
-                    backgroundColor: '#836853',
+                    backgroundColor: '#8AC6D1',
                 },
                 headerTitleStyle: {
                     fontWeight: 'bold',
