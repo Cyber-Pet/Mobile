@@ -12,12 +12,13 @@ import { StyledContainer } from '../../components/StyledContainer'
 import { StyledInput } from '../../components/StyledInput'
 import { StyledText } from '../../components/StyledText'
 import { StyledSubmitButton } from '../../components/StyledSubmitButton'
+import { StyledImage } from '../../components/StyledImage'
 import { PopUpView } from '../../components/PopUpView'
 import { useNavigation } from '@react-navigation/native'
 import api from '../../services/api'
 
 export default function UserLogin() {
-    const navigation = useNavigation();
+    const navigation = useNavigation(); 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [modalVisible, setModalVisible] = useState(false)
@@ -71,12 +72,14 @@ export default function UserLogin() {
                         </PopUpView>
                     </TouchableOpacity>
                 </Modal>
+                
+                <StyledImage marginTop='10%' width='55%' height='20%' source={require('../../../assets/Logo.png')} />
 
-                <StyledContainer color='transparent' width='90%' height='40%' marginTop='40%' >
+                <StyledContainer color='transparent' width='90%' height='40%' marginTop='20%' >
                     <StyledText color='#000' >
                         E-mail
                     </StyledText>
-                    <StyledInput placeholder='seunome@suaempresa.com' style={{ marginBottom: 10 }} value={ email } onChangeText={ setEmail }/>
+                    <StyledInput placeholder='seunome@suaempresa.com' style={{ marginBottom: 40 }} value={ email } onChangeText={ setEmail }/>
 
                     <StyledText color='#000' >
                         Senha
