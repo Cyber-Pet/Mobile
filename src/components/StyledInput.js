@@ -9,4 +9,5 @@ export const StyledInput = styled.TextInput`
     border-radius: 10px;
     color: #000000;
     padding-left: 10px;
+    font-size: ${props => props.fontSize || '20px'};
 `
