@@ -12,9 +12,9 @@ import { StyledContainer } from '../../components/StyledContainer'
 import { StyledInput } from '../../components/StyledInput'
 import { StyledText } from '../../components/StyledText'
 import { StyledSubmitButton } from '../../components/StyledSubmitButton'
-import { StyledImage } from '../../components/StyledImage'
 import { PopUpView } from '../../components/PopUpView'
 import { useNavigation } from '@react-navigation/native'
+import LottieView from "lottie-react-native"
 import api from '../../services/api'
 
 export default function UserLogin() {
@@ -73,35 +73,40 @@ export default function UserLogin() {
                     </TouchableOpacity>
                 </Modal>
                 
-                <StyledImage marginTop='20%' width='55%' height='20%' source={require('../../../assets/Logo.png')} />
-                <StyledText clor='#fff' fontSize='20px'>
-                    CyberPet 2077
-                </StyledText>
-                <StyledContainer color='#f7f5f2' marginTop='20%' width='100%' height='100%'>
-                    <StyledContainer color='transparent' width='90%' height='40%' marginTop='10%' marginLeft='5%'>
-                        <StyledInput placeholder='Digite seu e-mail' style={{ marginBottom: 40 }} value={ email } onChangeText={ setEmail }/>
-                        <StyledInput placeholder='Digite sua senha' secureTextEntry={true} style={{ marginBottom: 30 }} value={ password } onChangeText={ setPassword } />
-                        <View style={{ alignItems: 'center' }} >
-                            <StyledSubmitButton onPress={loginRequest} >
-                                <StyledText color='#000' fontSize='20px' >
-                                    Login
-                                </StyledText>
-                            </StyledSubmitButton>
-                        </View>
-                    </StyledContainer>
+                <LottieView
+                    style={{
+                        width: 150,
+                        height: 150,
+                        backgroundColor: 'transparent',
+                        paddingTop: '5%'
+                    }}
+                    source={require('../../../assets/animations/6732-animal.json')}
+                    autoPlay
+                    loop
+                />
+                <StyledContainer color='transparent' width='90%' height='40%' marginTop='10%'>
+                    <StyledInput placeholder='Digite seu e-mail' style={{ marginBottom: '10%' }} value={ email } onChangeText={ setEmail }/>
+                    <StyledInput placeholder='Digite sua senha' secureTextEntry={true} style={{ marginBottom: '15%' }} value={ password } onChangeText={ setPassword } />
+                    <View style={{ alignItems: 'center'}}  >
+                        <StyledSubmitButton onPress={loginRequest} >
+                            <StyledText color='#000' fontSize='20px' >
+                                Login
+                            </StyledText>
+                        </StyledSubmitButton>
+                    </View>
 
-                    <TouchableOpacity 
-                        style={{ flexDirection: 'row', marginTop: 40 }} 
+                </StyledContainer>
+                <TouchableOpacity 
+                        style={{ flexDirection: 'row', marginTop: '1%' }} 
                         onPress={() => navigation.navigate('userRegistration')
                     }>
-                        <StyledText fontWeight='normal' style={{ paddingLeft: 100 }} >
-                            Não tem uma conta?
-                        </StyledText>
-                        <StyledText color='#000' style={{ paddingLeft: 5 }}>
-                            Cadastre-se.
-                        </StyledText>
-                    </TouchableOpacity>
-                </StyledContainer>
+                    <StyledText fontWeight='normal' >
+                        Não tem uma conta?
+                    </StyledText>
+                    <StyledText color='#000' style={{ paddingLeft: 5 }}>
+                        Cadastre-se.
+                    </StyledText>
+                </TouchableOpacity>
             </Background>
         </KeyboardAvoidingView>
     )

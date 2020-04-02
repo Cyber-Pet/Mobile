@@ -5,7 +5,7 @@ export const StyledInput = styled.TextInput`
     background-color: transparent;
     border-bottom-width: 2px;
     border-bottom-color: #000;
-    height: 75px;
+    height: 20%;
     border-radius: 10px;
     color: #000000;
     padding-left: 10px;
