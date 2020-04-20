@@ -27,6 +27,7 @@ export default function StackNavigator() {
                 headerStyle: {
                     backgroundColor: '#8AC6D1',
                 },
+                headerTintColor: '#fff',
                 headerTitleStyle: {
                     fontWeight: 'bold',
                     color: '#FFF',
@@ -48,7 +49,7 @@ export default function StackNavigator() {
             <Stack.Screen name="home" component={Home} options={{
                 title: 'Inicio',
                 headerStyle: {
-                    backgroundColor: '#836853',
+                    backgroundColor: '#8AC6D1',
                 },
                 headerTintColor: '#fff',
                 headerTitleStyle: {
@@ -60,7 +61,7 @@ export default function StackNavigator() {
             <Stack.Screen name="qrCodeReader" component={QrCodeReader} options={{
                 title: 'Leitura do pote',
                 headerStyle: {
-                    backgroundColor: '#836853',
+                    backgroundColor: '#8AC6D1',
                 },
                 headerTintColor: '#fff',
                 headerTitleStyle: {
