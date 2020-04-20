@@ -47,7 +47,7 @@ export default function UserLogin() {
     }
 
     return(
-        <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset = {Header.HEIGHT} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
+        <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset = {Header.HEIGHT + 64} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
             <Background>
                 <Modal 
                     animationType="slide"
@@ -74,19 +74,22 @@ export default function UserLogin() {
                     </TouchableOpacity>
                 </Modal>
                 
-                <LottieView
-                    style={{
-                        width: 100,
-                        height: 100,    
-                        backgroundColor: 'transparent',
-                        paddingTop: '5%'
-                    }}
-                    source={require('../../../assets/animations/6732-animal.json')}
-                    autoPlay
-                    loop
-                    autoSize
-                />
-                <StyledContainer color='transparent' width='90%' height='40%' marginTop='20%'>
+                <StyledContainer color='transparent' width='90%' height='40%' marginTop='5%'>
+                    <View style={{ alignItems: 'center'}}>
+                        <LottieView
+                            style={{
+                                width: 100,
+                                height: 100,    
+                                backgroundColor: 'transparent',
+                                paddingTop: '5%',
+                                marginBottom: '15%'
+                            }}
+                            source={require('../../../assets/animations/6732-animal.json')}
+                            autoPlay
+                            loop
+                            autoSize
+                        />
+                    </View>
                     <StyledInput placeholder='Digite seu e-mail' style={{ marginBottom: '10%' }} value={ email } onChangeText={ setEmail }/>
                     <StyledInput placeholder='Digite sua senha' secureTextEntry={true} style={{ marginBottom: '15%' }} value={ password } onChangeText={ setPassword } />
                     <View style={{ alignItems: 'center'}}  >
