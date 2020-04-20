@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, ScrollView } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { Background } from '../../components/Background'
 import { AddButton } from '../../components/AddButton'
 import Icon from 'react-native-vector-icons/AntDesign'
 import { ListItem } from 'react-native-elements'
+import { AsyncStorage } from 'react-native';
 
 export default function Home() {
   const navigation = useNavigation();
+  useEffect(() => {
+    AsyncStorage.getItem('id_token', (err, token) => { console.log(token) ;return token ? navigation.navigate('home') : navigation.navigate('userLogin') })
+  }, [])
   const testNames =
     [
       {'name': 'Ben', 'id': 1},

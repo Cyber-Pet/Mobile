@@ -10,7 +10,9 @@ const Stack = createStackNavigator()
 
 export default function StackNavigator() {
     return(
-        <Stack.Navigator>
+        <Stack.Navigator
+            initialRouteName="home"
+        >
             <Stack.Screen name="userLogin" component={UserLogin} options={{
                 title: 'CyberPet Login',
                 headerStyle: {
@@ -69,7 +71,6 @@ export default function StackNavigator() {
                     color: '#FFF',
                 },
             }} />
-
         </Stack.Navigator>
     )
 }

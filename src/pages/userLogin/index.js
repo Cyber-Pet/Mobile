@@ -18,6 +18,7 @@ import { useNavigation } from '@react-navigation/native'
 import LottieView from "lottie-react-native"
 import api from '../../services/api'
 import { Header } from '@react-navigation/stack'
+import { AsyncStorage } from 'react-native';
 
 export default function UserLogin() {
     const navigation = useNavigation(); 
@@ -34,7 +35,7 @@ export default function UserLogin() {
         }).then(response => {
             const statusCode = response.status
             if (statusCode == 200) {
-                navigation.navigate('home')
+                AsyncStorage.setItem('id_token',response.data.data.token).then(() => navigation.navigate('home'));
             }
         }).catch(error => {
             setModalVisible(true)
