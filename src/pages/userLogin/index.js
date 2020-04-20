@@ -1,84 +1,61 @@
+import { useNavigation } from '@react-navigation/native'
+import { Header } from '@react-navigation/stack'
+import LottieView from "lottie-react-native"
 import React, { useState } from 'react'
-import {
-    View, 
-    TouchableOpacity, 
-    Vibration, 
-    KeyboardAvoidingView, 
-    Modal,
-    Platform
-} from 'react-native'
-
+import { KeyboardAvoidingView, Platform, TouchableOpacity, Vibration, View } from 'react-native'
 import { Background } from '../../components/Background'
+import PopUp from '../../components/PopUpView'
 import { StyledContainer } from '../../components/StyledContainer'
 import { StyledInput } from '../../components/StyledInput'
-import { StyledText } from '../../components/StyledText'
 import { StyledSubmitButton } from '../../components/StyledSubmitButton'
-import { PopUpView } from '../../components/PopUpView'
-import { useNavigation } from '@react-navigation/native'
-import LottieView from "lottie-react-native"
+import { StyledText } from '../../components/StyledText'
 import api from '../../services/api'
-import { Header } from '@react-navigation/stack'
-import { AsyncStorage } from 'react-native';
+
 
 export default function UserLogin() {
-    const navigation = useNavigation(); 
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+    const navigation = useNavigation();
+    const [values, setValues] = useState({
+        email: null,
+        password: null
+    })
     const [modalVisible, setModalVisible] = useState(false)
     const [apiMessage, setApiMessage] = useState([])
 
-    
+
     async function loginRequest() {
-        await api.post('/api/Auth/login',{
-            email,
-            password
-        }).then(response => {
-            const statusCode = response.status
-            if (statusCode == 200) {
-                AsyncStorage.setItem('id_token',response.data.data.token).then(() => navigation.navigate('home'));
-            }
-        }).catch(error => {
-            setModalVisible(true)
-            setApiMessage(error.response.data.errors)
-            setTimeout(() => {
-                setModalVisible(false)
-            }, 3000)
-            Vibration.vibrate(500)
-        })
+        api.post('/auth/login', values)
+            .then(response => {
+                if (response.status == 200) AsyncStorage.setItem('id_token', response.data.data.token).then(() => navigation.navigate('home'));
+            }).catch(error => {
+                setApiMessage(error.response.data.errors)
+                openPopUp()
+                Vibration.vibrate(500)
+            })
     }
 
-    return(
-        <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset = {Header.HEIGHT} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
+    const handleChange = (name, value) => {
+        setValues({
+            ...values,
+            [name]: value
+        });
+    };
+
+    const openPopUp = () => {
+        setModalVisible(true)
+    }
+    const closePopUp = () => {
+        setModalVisible(false)
+    }
+
+    return (
+        <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={Header.HEIGHT} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
             <Background>
-                <Modal 
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisible}
-                >
-                    <TouchableOpacity
-                        onPressOut={() => {setModalVisible(false)}}
-                        style={{
-                            flex: 1,
-                            alignItems: 'center',
-                            paddingTop: '20%'
-                        }} 
-                    >
-                        <PopUpView>
-                                {apiMessage.map((message, index) => {
-                                    return(
-                                        <StyledText key={index} >
-                                            {`\u2022    ${message}`}
-                                        </StyledText>
-                                    )
-                                })}
-                        </PopUpView>
-                    </TouchableOpacity>
-                </Modal>
-                <View style={{ alignItems: 'center'}}>
+                <PopUp visible={modalVisible} message={apiMessage} closePopUp={closePopUp} autoCloseIn={5000} />
+                <View style={{ alignItems: 'center' }}>
                     <LottieView
                         style={{
                             width: 100,
-                            height: 100,    
+                            height: 100,
                             backgroundColor: 'transparent',
                             paddingTop: '5%',
                             marginBottom: '15%',
@@ -91,25 +68,25 @@ export default function UserLogin() {
                     />
                 </View>
                 <StyledContainer color='transparent' width='90%' height='40%' marginTop='5%'>
-                    <StyledInput placeholder='Digite seu e-mail' style={{ marginBottom: '10%' }} value={ email } onChangeText={ setEmail }/>
-                    <StyledInput placeholder='Digite sua senha' secureTextEntry={true} style={{ marginBottom: '15%' }} value={ password } onChangeText={ setPassword } />
-                    <View style={{ alignItems: 'center'}}  >
+                    <StyledInput placeholder='Digite seu e-mail' style={{ marginBottom: '10%' }} value={values.email} onChangeText={text => handleChange('email', text)} />
+                    <StyledInput placeholder='Digite sua senha' secureTextEntry={true} style={{ marginBottom: '15%' }} value={values.password} onChangeText={text => handleChange('password', text)} />
+                    <View style={{ alignItems: 'center' }}  >
                         <StyledSubmitButton onPress={loginRequest} >
                             <StyledText color='#000' fontSize='20px' >
                                 Login
                             </StyledText>
                         </StyledSubmitButton>
                     </View>
-                    <View style={{ alignItems: 'center'}}>
-                        <TouchableOpacity 
-                                style={{ flexDirection: 'row', marginTop: '10%' }} 
-                                onPress={() => navigation.navigate('userRegistration')
+                    <View style={{ alignItems: 'center' }}>
+                        <TouchableOpacity
+                            style={{ flexDirection: 'row', marginTop: '10%' }}
+                            onPress={() => navigation.navigate('userRegistration')
                             }>
-                                <StyledText fontWeight='normal' >
-                                    Não tem uma conta?
+                            <StyledText fontWeight='normal' >
+                                Não tem uma conta?
                                 </StyledText>
-                                <StyledText color='#000' style={{ paddingLeft: 5 }}>
-                                    Cadastre-se.
+                            <StyledText color='#000' style={{ paddingLeft: 5 }}>
+                                Cadastre-se.
                                 </StyledText>
                         </TouchableOpacity>
                     </View>

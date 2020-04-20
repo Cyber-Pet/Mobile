@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native'
-import { Background } from '../../components/Background'
-import { StyledInput } from '../../components/StyledInput'
-import { StyledContainer } from '../../components/StyledContainer'
-import { StyledText } from '../../components/StyledText';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import LottieView from "lottie-react-native";
+import React, { useEffect, useState } from 'react';
+import { KeyboardAvoidingView, Vibration, View } from 'react-native';
+import { Background } from '../../components/Background';
+import PopUp from '../../components/PopUpView';
+import { StyledContainer } from '../../components/StyledContainer';
+import { StyledInput } from '../../components/StyledInput';
 import { StyledSubmitButton } from '../../components/StyledSubmitButton';
-import PopUp from '../../components/PopUpView'
-import LottieView from "lottie-react-native"
-import {
-  View,
-  KeyboardAvoidingView,
-  Vibration
-} from 'react-native';
+import { StyledText } from '../../components/StyledText';
 import api from '../../services/api';
-import axios from 'axios'
 
 export default function UserRegistration() {
   const cancelationToken = axios.CancelToken.source()
@@ -28,8 +24,10 @@ export default function UserRegistration() {
   const navigation = useNavigation();
 
   const handleChange = (name, value) => {
-    setValues({ ...values, 
-      [name]: value });
+    setValues({
+      ...values,
+      [name]: value
+    });
   };
 
   const openPopUp = () => {
@@ -38,8 +36,8 @@ export default function UserRegistration() {
   const closePopUp = () => {
     setModalVisible(false)
   }
-  const createNewUser = async () =>  {
-    await api.post('/api/Auth/register', values , {
+  const createNewUser = async () => {
+    await api.post('/Auth/register', values, {
       cancelToken: cancelationToken.token
     }).then(response => {
       const statusCode = response.status
@@ -48,7 +46,6 @@ export default function UserRegistration() {
       }
     }).catch(error => {
       if (axios.isCancel(error)) return;
-
       setApiMessage(error.response.data.errors)
       openPopUp()
       Vibration.vibrate(500)
@@ -67,10 +64,10 @@ export default function UserRegistration() {
         <PopUp visible={modalVisible} message={apiMessage} closePopUp={closePopUp} autoCloseIn={3000} />
         <LottieView
           style={{
-              width: 100,
-              height: 100,
-              backgroundColor: 'transparent',
-              paddingTop: '5%'
+            width: 100,
+            height: 100,
+            backgroundColor: 'transparent',
+            paddingTop: '5%'
           }}
           source={require('../../../assets/animations/6732-animal.json')}
           autoPlay

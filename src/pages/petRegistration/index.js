@@ -1,25 +1,16 @@
-import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Background } from '../../components/Background';
-import { StyledText } from '../../components/StyledText';
-import { StyledInput } from '../../components/StyledInput';
-import { StyledContainer } from '../../components/StyledContainer';
-import { StyledSubmitButton } from '../../components/StyledSubmitButton';
+import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
-import {
-  View,
-  KeyboardAvoidingView,
-  Vibration,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import React, { useState } from 'react';
+import { Image, KeyboardAvoidingView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyledContainer } from '../../components/StyledContainer';
+import { StyledInput } from '../../components/StyledInput';
+import { StyledSubmitButton } from '../../components/StyledSubmitButton';
+import { StyledText } from '../../components/StyledText';
 import api from '../../services/api';
-import axios from 'axios'
 
 export default function PetRegistration() {
-  const navigation = useNavigation(); 
+  const navigation = useNavigation();
   const cancelationToken = axios.CancelToken.source()
   const [values, setValues] = useState({
     petName: null,
@@ -28,7 +19,7 @@ export default function PetRegistration() {
     petId: null,
     bowlId: null,
   })
-  async function _pickImage(){
+  async function _pickImage() {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -49,7 +40,7 @@ export default function PetRegistration() {
   };
 
   async function sendPetImage() {
-    api.post('/api/Pets', {
+    api.post('/Pets', {
       petName: '',
       petImage: values.petImage,
       userId: values.userId
@@ -59,44 +50,46 @@ export default function PetRegistration() {
     }).catch(error => {
       console.log(error)
     })
-    
+
   }
   async function getPetImage() {
-    api.get('/api/Pets/'+ values.petId).then(response => {
+    api.get('/Pets/' + values.petId).then(response => {
       const petImageBase64 = response.data.data.petImage;
       handleChange('petImage', petImageBase64);
-      console.log('get'+ response.data.data.id);
+      console.log('get' + response.data.data.id);
     }).catch(error => {
       console.log(error)
     })
   }
   const handleChange = (name, value) => {
-    setValues({ ...values, 
-      [name]: value });
+    setValues({
+      ...values,
+      [name]: value
+    });
   };
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
-        <View style={styles.MainContainer}> 
-          <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 1, alignItems: 'center' }}>
-            <TouchableOpacity activeOpacity={0.5} onPress={ _pickImage }>
-              <Image
-                source={{
-                  uri:
-                  `data:image/png;base64,${ values.petImage }`
-                }}
-                style={styles.ImageIconStyle}
-              />
-            </TouchableOpacity>
-          </StyledContainer>
-          <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 3, alignItems: 'center'}}>
-            <StyledInput placeholder='Informe o nome do pet' height= "10%" value={values.name} onChangeText={text => handleChange('petName', text)} />
-            <StyledSubmitButton onPress={() => navigation.navigate('qrCodeReader')}>  
-              <StyledText color='#000'>
-                  Clique aqui para cadastrar o pet e cadastrar seu pote
+      <View style={styles.MainContainer}>
+        <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 1, alignItems: 'center' }}>
+          <TouchableOpacity activeOpacity={0.5} onPress={_pickImage}>
+            <Image
+              source={{
+                uri:
+                  `data:image/png;base64,${values.petImage}`
+              }}
+              style={styles.ImageIconStyle}
+            />
+          </TouchableOpacity>
+        </StyledContainer>
+        <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 3, alignItems: 'center' }}>
+          <StyledInput placeholder='Informe o nome do pet' height="10%" value={values.name} onChangeText={text => handleChange('petName', text)} />
+          <StyledSubmitButton onPress={() => navigation.navigate('qrCodeReader')}>
+            <StyledText color='#000'>
+              Clique aqui para cadastrar o pet e cadastrar seu pote
               </StyledText>
-            </StyledSubmitButton>
-          </StyledContainer>
-        </View>
+          </StyledSubmitButton>
+        </StyledContainer>
+      </View>
     </KeyboardAvoidingView>
   );
 }
