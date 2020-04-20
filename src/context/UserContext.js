@@ -72,7 +72,7 @@ const AuthProvider = ({ children }) => {
           const response = await api.post('/auth/login', data)
           await AsyncStorage.setItem('id_token', response.data.data.token);
           let decodedToken = jwtDecode(response.data.data.token);
-          dispatch({ type: 'SIGN_IN', token: response.data.data.token, name: decodedToken.unique_name, email: decodedToken.email, userId: decodedToken.Id });
+          dispatch({ type: 'SIGN_IN', token: response.data.data.token, userName: decodedToken.unique_name, userEmail: decodedToken.email, userId: decodedToken.Id  });
         } catch (error) {
           dispatch({ type: 'ERROR', messages: error.response.data.errors });
         }
@@ -96,3 +96,4 @@ const AuthProvider = ({ children }) => {
 }
 
 export { AuthProvider, UserContext };
+

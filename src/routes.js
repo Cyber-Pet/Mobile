@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import React, { useContext } from 'react'
+import Header from './components/Header'
 import { UserContext } from './context/UserContext'
 import Home from './pages/home/home'
 import PetRegistration from './pages/petRegistration/index'
@@ -12,66 +13,33 @@ const Stack = createStackNavigator()
 export default function StackNavigator() {
     const { userState } = useContext(UserContext)
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{
+                header: ({ scene, previous, navigation }) => (
+                    <Header scene={scene} previous={previous} navigation={navigation} />
+                ),
+            }}
+        >
             {userState.userToken == null ? (
                 <>
                     <Stack.Screen name="userLogin" component={UserLogin} options={{
-                        title: 'CyberPet Login',
-                        headerStyle: {
-                            backgroundColor: '#8AC6D1',
-                        },
-                        headerTitleStyle: {
-                            fontWeight: 'bold',
-                            color: '#FFF',
-                        },
+                        title: 'CyberPet Login'
                     }} />
                     <Stack.Screen name="userRegistration" component={UserRegistration} options={{
-                        title: 'Cadastre o seu usuário',
-                        headerStyle: {
-                            backgroundColor: '#8AC6D1',
-                        },
-                        headerTintColor: '#fff',
-                        headerTitleStyle: {
-                            fontWeight: 'bold',
-                            color: '#FFF',
-                        },
+                        title: 'Cadastre o seu usuário'
                     }} />
                 </>
             ) : (
                     <>
                         <Stack.Screen name="home" component={Home} options={{
-                            title: 'Inicio',
-                            headerStyle: {
-                                backgroundColor: '#8AC6D1',
-                            },
-                            headerTintColor: '#fff',
-                            headerTitleStyle: {
-                                fontWeight: 'bold',
-                                color: '#FFF',
-                            },
+                            title: 'Inicio'
                         }} />
                         <Stack.Screen name="petRegistration" component={PetRegistration} options={{
-                            title: 'Cadastre o seu pet',
-                            headerStyle: {
-                                backgroundColor: '#8AC6D1',
-                            },
-                            headerTintColor: '#fff',
-                            headerTitleStyle: {
-                                fontWeight: 'bold',
-                                color: '#FFF',
-                            },
+                            title: 'Cadastre o seu pet'
                         }} />
 
                         <Stack.Screen name="qrCodeReader" component={QrCodeReader} options={{
                             title: 'Leitura do pote',
-                            headerStyle: {
-                                backgroundColor: '#8AC6D1',
-                            },
-                            headerTintColor: '#fff',
-                            headerTitleStyle: {
-                                fontWeight: 'bold',
-                                color: '#FFF',
-                            },
                         }} />
                     </>
                 )

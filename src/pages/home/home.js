@@ -1,44 +1,37 @@
-import React, { useEffect } from 'react'
-import { View, ScrollView } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { Background } from '../../components/Background'
-import { AddButton } from '../../components/AddButton'
-import Icon from 'react-native-vector-icons/AntDesign'
+import React, { useContext, useEffect, useState } from 'react'
+import { ScrollView, View } from 'react-native'
 import { ListItem } from 'react-native-elements'
-import { AsyncStorage } from 'react-native';
+import Icon from 'react-native-vector-icons/AntDesign'
+import { AddButton } from '../../components/AddButton'
+import { Background } from '../../components/Background'
+import { UserContext } from '../../context/UserContext'
+import api from '../../services/api'
 
 export default function Home() {
+  const { userState } = useContext(UserContext)
   const navigation = useNavigation();
-  const testNames =
-    [
-      { 'name': 'Ben', 'id': 1 },
-      { 'name': 'Susan', 'id': 2 },
-      { 'name': 'Robert', 'id': 3 },
-      { 'name': 'Mary', 'id': 4 },
-      { 'name': 'Daniel', 'id': 5 },
-      { 'name': 'Laura', 'id': 6 },
-      { 'name': 'John', 'id': 7 },
-      { 'name': 'Debra', 'id': 8 },
-      { 'name': 'Aron', 'id': 9 },
-      { 'name': 'Ann', 'id': 10 },
-      { 'name': 'Steve', 'id': 11 },
-      { 'name': 'Olivia', 'id': 12 },
-      { 'name': 'Bob', 'id': 13 },
-      { 'name': 'Malcom', 'id': 14 },
-    ]
+  const [pets, setPets] = useState([])
 
+  useEffect(() => {
+    api.get('/pets/user/' + userState.id)
+      .then(response => {
+        setPets(response.data.data)
+      })
+      .catch(erro => console.log(erro))
+  }, [])
 
   return (
     <Background>
       <ScrollView style={{ width: '100%' }}>
         {
-          testNames.map((testNames) => (
+          pets.map((pets) => (
             <ListItem
               leftAvatar={{
-                title: testNames.name[0]
+                title: pets.petName[0]
               }}
-              key={testNames.id}
-              title={testNames.name}
+              key={pets.id}
+              title={pets.petName}
               chevron
             />
           ))
