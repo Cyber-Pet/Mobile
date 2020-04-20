@@ -47,7 +47,7 @@ export default function UserLogin() {
     }
 
     return(
-        <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset = {Header.HEIGHT + 64} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
+        <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset = {Header.HEIGHT} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
             <Background>
                 <Modal 
                     animationType="slide"
@@ -73,23 +73,23 @@ export default function UserLogin() {
                         </PopUpView>
                     </TouchableOpacity>
                 </Modal>
-                
+                <View style={{ alignItems: 'center'}}>
+                    <LottieView
+                        style={{
+                            width: 100,
+                            height: 100,    
+                            backgroundColor: 'transparent',
+                            paddingTop: '5%',
+                            marginBottom: '15%',
+
+                        }}
+                        source={require('../../../assets/animations/6732-animal.json')}
+                        autoPlay
+                        loop
+                        resizeMode='contain'
+                    />
+                </View>
                 <StyledContainer color='transparent' width='90%' height='40%' marginTop='5%'>
-                    <View style={{ alignItems: 'center'}}>
-                        <LottieView
-                            style={{
-                                width: 100,
-                                height: 100,    
-                                backgroundColor: 'transparent',
-                                paddingTop: '5%',
-                                marginBottom: '15%'
-                            }}
-                            source={require('../../../assets/animations/6732-animal.json')}
-                            autoPlay
-                            loop
-                            autoSize
-                        />
-                    </View>
                     <StyledInput placeholder='Digite seu e-mail' style={{ marginBottom: '10%' }} value={ email } onChangeText={ setEmail }/>
                     <StyledInput placeholder='Digite sua senha' secureTextEntry={true} style={{ marginBottom: '15%' }} value={ password } onChangeText={ setPassword } />
                     <View style={{ alignItems: 'center'}}  >
@@ -98,16 +98,18 @@ export default function UserLogin() {
                                 Login
                             </StyledText>
                         </StyledSubmitButton>
+                    </View>
+                    <View style={{ alignItems: 'center'}}>
                         <TouchableOpacity 
-                            style={{ flexDirection: 'row', marginTop: '10%' }} 
-                            onPress={() => navigation.navigate('userRegistration')
-                        }>
-                            <StyledText fontWeight='normal' >
-                                Não tem uma conta?
-                            </StyledText>
-                            <StyledText color='#000' style={{ paddingLeft: 5 }}>
-                                Cadastre-se.
-                            </StyledText>
+                                style={{ flexDirection: 'row', marginTop: '10%' }} 
+                                onPress={() => navigation.navigate('userRegistration')
+                            }>
+                                <StyledText fontWeight='normal' >
+                                    Não tem uma conta?
+                                </StyledText>
+                                <StyledText color='#000' style={{ paddingLeft: 5 }}>
+                                    Cadastre-se.
+                                </StyledText>
                         </TouchableOpacity>
                     </View>
                 </StyledContainer>
