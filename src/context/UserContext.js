@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 import { AsyncStorage } from 'react-native';
 import api from '../services/api';
-var jwtDecode = require('jwt-decode');
+import jwtDecode from 'jwt-decode';
 const UserContext = createContext();
 const AuthProvider = ({ children }) => {
   const { Provider } = UserContext;
