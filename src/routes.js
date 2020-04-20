@@ -11,9 +11,8 @@ const Stack = createStackNavigator()
 export default function StackNavigator() {
     return(
         <Stack.Navigator>
-
-            <Stack.Screen name="petRegistration" component={PetRegistration} options={{
-                title: 'Cadastre o seu pet',
+            <Stack.Screen name="userLogin" component={UserLogin} options={{
+                title: 'CyberPet Login',
                 headerStyle: {
                     backgroundColor: '#8AC6D1',
                 },
@@ -23,8 +22,8 @@ export default function StackNavigator() {
                 },
             }}/>
 
-            <Stack.Screen name="userLogin" component={UserLogin} options={{
-                title: 'CyberPet Login',
+            <Stack.Screen name="petRegistration" component={PetRegistration} options={{
+                title: 'Cadastre o seu pet',
                 headerStyle: {
                     backgroundColor: '#8AC6D1',
                 },

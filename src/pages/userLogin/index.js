@@ -17,6 +17,7 @@ import { PopUpView } from '../../components/PopUpView'
 import { useNavigation } from '@react-navigation/native'
 import LottieView from "lottie-react-native"
 import api from '../../services/api'
+import { Header } from '@react-navigation/stack'
 
 export default function UserLogin() {
     const navigation = useNavigation(); 
@@ -46,7 +47,7 @@ export default function UserLogin() {
     }
 
     return(
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
+        <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset = {Header.HEIGHT} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
             <Background>
                 <Modal 
                     animationType="slide"

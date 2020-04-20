@@ -5,7 +5,6 @@ import { StyledText } from '../../components/StyledText';
 import { StyledInput } from '../../components/StyledInput';
 import { StyledContainer } from '../../components/StyledContainer';
 import { StyledSubmitButton } from '../../components/StyledSubmitButton';
-import { AddButton } from '../../components/AddButton';
 import * as ImagePicker from 'expo-image-picker';
 import {
   View,
@@ -91,11 +90,11 @@ export default function PetRegistration() {
           </StyledContainer>
           <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 3, alignItems: 'center'}}>
             <StyledInput placeholder='Informe o nome do pet' height= "10%" value={values.name} onChangeText={text => handleChange('petName', text)} />
-            <AddButton onPress={() => navigation.navigate('qrCodeReader')}>  
+            <StyledSubmitButton onPress={() => navigation.navigate('qrCodeReader')}>  
               <StyledText color='#000'>
                   Clique aqui para cadastrar o pet e cadastrar seu pote
               </StyledText>
-            </AddButton>
+            </StyledSubmitButton>
           </StyledContainer>
         </View>
     </KeyboardAvoidingView>
