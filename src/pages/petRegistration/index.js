@@ -27,42 +27,19 @@ export default function PetRegistration() {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
-        quality: 1,
+        quality: 0.1,
         base64: true,
       });
       if (!result.cancelled) {
-        values.petImage = result.base64;
-        sendPetImage();
-        getPetImage();
+        setValues({ 
+          ...values,
+          ["petImage"]: result.base64 });
       }
       console.log(result.uri);
     } catch (E) {
       console.log(E);
     }
   };
-
-  async function sendPetImage() {
-    api.post('/Pets', {
-      petName: '',
-      petImage: values.petImage,
-      userId: values.userId
-    }).then(response => {
-      let petId = response.data.data.id;
-      values.petId = petId;
-    }).catch(error => {
-      console.log(error)
-    })
-
-  }
-  async function getPetImage() {
-    api.get('/Pets/' + values.petId).then(response => {
-      const petImageBase64 = response.data.data.petImage;
-      handleChange('petImage', petImageBase64);
-      console.log('get' + response.data.data.id);
-    }).catch(error => {
-      console.log(error)
-    })
-  }
   const handleChange = (name, value) => {
     setValues({
       ...values,
