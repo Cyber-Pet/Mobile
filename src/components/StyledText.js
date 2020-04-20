@@ -4,4 +4,5 @@ export const StyledText = styled.Text`
     color: ${props => props.color || '#000000'};
     font-weight: ${props => props.fontWeight || 'bold'};
     font-size: ${props => props.fontSize || '15px'};
+    marginTop: ${props => props.marginTop | '0px'};
 `
