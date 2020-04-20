@@ -84,7 +84,7 @@ export default function UserLogin() {
                     autoPlay
                     loop
                 />
-                <StyledContainer color='transparent' width='90%' height='40%' marginTop='25%'>
+                <StyledContainer color='transparent' width='90%' height='40%' marginTop='20%'>
                     <StyledInput placeholder='Digite seu e-mail' style={{ marginBottom: '10%' }} value={ email } onChangeText={ setEmail }/>
                     <StyledInput placeholder='Digite sua senha' secureTextEntry={true} style={{ marginBottom: '15%' }} value={ password } onChangeText={ setPassword } />
                     <View style={{ alignItems: 'center'}}  >

@@ -76,7 +76,7 @@ export default function UserRegistration() {
           autoPlay
           loop
         />
-        <StyledContainer color='transparent' width='90%' height='50%' marginTop='10%' >
+        <StyledContainer color='transparent' width='90%' height='40%' marginTop='10%' >
           <StyledInput placeholder='Informe seu Nome' value={values.name} style={{ marginBottom: "10%" }} onChangeText={text => handleChange('name', text)} />
 
           <StyledInput placeholder='Seunome@suaempresa.com' value={values.email} style={{ marginBottom: "10%" }} onChangeText={text => handleChange('email', text)} />
