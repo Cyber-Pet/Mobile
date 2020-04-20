@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 import { AsyncStorage } from 'react-native';
 import api from '../services/api';
+var jwtDecode = require('jwt-decode');
 const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const { Provider } = AuthContext;
@@ -10,6 +11,9 @@ const AuthProvider = ({ children }) => {
         return {
           ...prevState,
           userToken: action.token,
+          userId: action.userId,
+          userName: action.userName,
+          userEmail: action.userEmail,
           isLoading: false,
         };
       case 'SIGN_IN':
@@ -17,6 +21,9 @@ const AuthProvider = ({ children }) => {
           ...prevState,
           usSignout: false,
           userToken: action.token,
+          userId: action.userId,
+          userName: action.userName,
+          userEmail: action.userEmail,
         };
       case 'SIGN_OUT':
         return {
@@ -28,7 +35,7 @@ const AuthProvider = ({ children }) => {
         return {
           isSignout: true,
           userToken: null,
-          errorMessages: action.messages
+          errorMessages: action.messages,
         }
     }
   },
@@ -36,6 +43,8 @@ const AuthProvider = ({ children }) => {
       isLoading: true,
       isSignout: false,
       userToken: null,
+      userName: null,
+      userId: null,
       errorMessages: null,
     }
   );
@@ -43,12 +52,14 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const bootstrapAsync = async () => {
       let userToken;
+      let decodedToken;
       try {
         userToken = await AsyncStorage.getItem('id_token');
+        decodedToken = jwtDecode(userToken);
       } catch (e) {
         console.log(e);
       }
-      dispatch({ type: 'RESTORE_TOKEN', token: userToken })
+      dispatch({ type: 'RESTORE_TOKEN', token: userToken, userName: decodedToken.unique_name, userEmail: decodedToken.email, userId: decodedToken.Id })
     }
     bootstrapAsync()
   }, [])
@@ -59,7 +70,8 @@ const AuthProvider = ({ children }) => {
         try {
           const response = await api.post('/auth/login', data)
           await AsyncStorage.setItem('id_token', response.data.data.token);
-          dispatch({ type: 'SIGN_IN', token: response.data.data.token });
+          let decodedToken = jwtDecode(response.data.data.token);
+          dispatch({ type: 'SIGN_IN', token: response.data.data.token, name: decodedToken.unique_name, email: decodedToken.email, userId: decodedToken.Id });
         } catch (error) {
           dispatch({ type: 'ERROR', messages: error.response.data.errors });
         }

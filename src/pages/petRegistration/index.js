@@ -1,21 +1,23 @@
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Image, KeyboardAvoidingView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { StyledContainer } from '../../components/StyledContainer';
 import { StyledInput } from '../../components/StyledInput';
 import { StyledSubmitButton } from '../../components/StyledSubmitButton';
 import { StyledText } from '../../components/StyledText';
+import { Avatar } from 'react-native-elements';
 import api from '../../services/api';
+import { AuthContext } from '../../context/authContext';
 
 export default function PetRegistration() {
+  const { authState } = useContext(AuthContext)
   const navigation = useNavigation();
-  const cancelationToken = axios.CancelToken.source()
   const [values, setValues] = useState({
     petName: null,
     petImage: null,
-    userId: "ee900000-656a-b3de-366a-08d7e3247f8e",
+    userId: authState.userId,
     petId: null,
     bowlId: null,
   })
@@ -70,16 +72,17 @@ export default function PetRegistration() {
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
       <View style={styles.MainContainer}>
-        <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 1, alignItems: 'center' }}>
-          <TouchableOpacity activeOpacity={0.5} onPress={_pickImage}>
-            <Image
+      <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 1, alignItems: 'center' }}>
+            <Avatar
+              onPress={_pickImage}
+              activeOpacity={0.5}
+              rounded
+              size="xlarge"
+              showEditButton
               source={{
-                uri:
-                  `data:image/png;base64,${values.petImage}`
+                uri: values.petImage ? `data:image/png;base64,${values.petImage}` : 'https://image.flaticon.com/icons/png/512/194/194279.png'
               }}
-              style={styles.ImageIconStyle}
             />
-          </TouchableOpacity>
         </StyledContainer>
         <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 3, alignItems: 'center' }}>
           <StyledInput placeholder='Informe o nome do pet' height="10%" value={values.name} onChangeText={text => handleChange('petName', text)} />
