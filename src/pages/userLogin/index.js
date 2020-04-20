@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import { Header } from '@react-navigation/stack'
 import LottieView from "lottie-react-native"
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { KeyboardAvoidingView, Platform, TouchableOpacity, Vibration, View } from 'react-native'
 import { Background } from '../../components/Background'
 import PopUp from '../../components/PopUpView'
@@ -9,10 +9,11 @@ import { StyledContainer } from '../../components/StyledContainer'
 import { StyledInput } from '../../components/StyledInput'
 import { StyledSubmitButton } from '../../components/StyledSubmitButton'
 import { StyledText } from '../../components/StyledText'
-import api from '../../services/api'
+import { AuthContext } from '../../context/authContext'
 
 
 export default function UserLogin() {
+    const { authService, authState } = useContext(AuthContext)
     const navigation = useNavigation();
     const [values, setValues] = useState({
         email: null,
@@ -23,15 +24,20 @@ export default function UserLogin() {
 
 
     async function loginRequest() {
-        api.post('/auth/login', values)
-            .then(response => {
-                if (response.status == 200) AsyncStorage.setItem('id_token', response.data.data.token).then(() => navigation.navigate('home'));
-            }).catch(error => {
-                setApiMessage(error.response.data.errors)
-                openPopUp()
-                Vibration.vibrate(500)
-            })
+        try {
+            authService.signIn(values);
+        } catch (error) {
+
+        }
+
     }
+    useEffect(() => {
+        if (authState.errorMessages != null) {
+            setApiMessage(authState.errorMessages)
+            openPopUp()
+            Vibration.vibrate(500)
+        }
+    }, [authState.errorMessages])
 
     const handleChange = (name, value) => {
         setValues({

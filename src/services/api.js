@@ -6,15 +6,12 @@ const api = axios.create({
 })
 
 api.interceptors.request.use(config => {
-        const token = AsyncStorage.getItem('id_token', token => { return token })
-        if (token) {
-            config.headers['Authorization'] = 'Bearer ' + token;
-        }
-        return config;
-    },
-    error => {
-        Promise.reject(error)
-    })
+    const token = AsyncStorage.getItem('id_token', token => { return token })
+    if (token) {
+        config.headers['Authorization'] = 'Bearer ' + token;
+    }
+    return config;
+});
 
 export default api
 
