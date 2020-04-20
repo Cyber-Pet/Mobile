@@ -6,6 +6,7 @@ import { StyledContainer } from '../../components/StyledContainer'
 import { StyledText } from '../../components/StyledText';
 import { StyledSubmitButton } from '../../components/StyledSubmitButton';
 import PopUp from '../../components/PopUpView'
+import LottieView from "lottie-react-native"
 import {
   View,
   KeyboardAvoidingView,
@@ -59,30 +60,36 @@ export default function UserRegistration() {
       cancelationToken.cancel()
     }
   }, [])
+
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
       <Background>
         <PopUp visible={modalVisible} message={apiMessage} closePopUp={closePopUp} autoCloseIn={3000} />
-        <StyledContainer color='transparent' width='90%' height='400px' marginTop='40%' >
-          <StyledText>
-            Nome
-          </StyledText>
-          <StyledInput placeholder='Informe seu Nome' value={values.name} style={{ marginBottom: 10 }} onChangeText={text => handleChange('name', text)} />
-          <StyledText>
-            E-mail
-          </StyledText>
-          <StyledInput placeholder='seunome@suaempresa.com' value={values.email} style={{ marginBottom: 10 }} onChangeText={text => handleChange('email', text)} />
-          <StyledText>
-            Senha
-          </StyledText>
-          <StyledInput placeholder='digite sua senha (min. 6 caracteres)' secureTextEntry={true} value={values.password} style={{ marginBottom: 30 }} onChangeText={text => handleChange('password', text)} />
+        <LottieView
+          style={{
+              width: 100,
+              height: 100,
+              backgroundColor: 'transparent',
+              paddingTop: '5%'
+          }}
+          source={require('../../../assets/animations/6732-animal.json')}
+          autoPlay
+          loop
+        />
+        <StyledContainer color='transparent' width='90%' height='50%' marginTop='10%' >
+          <StyledInput placeholder='Informe seu Nome' value={values.name} style={{ marginBottom: "10%" }} onChangeText={text => handleChange('name', text)} />
+
+          <StyledInput placeholder='Seunome@suaempresa.com' value={values.email} style={{ marginBottom: "10%" }} onChangeText={text => handleChange('email', text)} />
+
+          <StyledInput placeholder='Digite sua senha (min. 6 caracteres)' secureTextEntry={true} value={values.password} style={{ marginBottom: "10%" }} onChangeText={text => handleChange('password', text)} />
           <View style={{ alignItems: 'center' }} >
             <StyledSubmitButton onPress={() => createNewUser()}>
-              <StyledText color='#FFF'>
+              <StyledText color='#000' fontSize='20px'>
                 Cadastrar
               </StyledText>
             </StyledSubmitButton>
           </View>
+
         </StyledContainer>
       </Background>
     </KeyboardAvoidingView>

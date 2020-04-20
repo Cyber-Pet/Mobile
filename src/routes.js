@@ -34,9 +34,9 @@ export default function StackNavigator() {
             }}/>
 
             <Stack.Screen name="userRegistration" component={UserRegistration} options={{
-                title: 'Cadastre o usuário',
+                title: 'Cadastre o seu usuário',
                 headerStyle: {
-                    backgroundColor: '#836853',
+                    backgroundColor: '#8AC6D1',
                 },
                 headerTintColor: '#fff',
                 headerTitleStyle: {
