@@ -1,0 +1,1 @@
+export const defaultPetImageBase64 = 'test'
