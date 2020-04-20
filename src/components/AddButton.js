@@ -9,5 +9,6 @@ export const AddButton = styled.TouchableOpacity`
     border-radius: 5px;
     align-items: center;
     justify-content: center;
-`
+    border-radius: 50px;
+    background-color: #8AC6D1;
 

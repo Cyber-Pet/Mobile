@@ -5,6 +5,7 @@ import {
     Vibration, 
     KeyboardAvoidingView, 
     Modal,
+    Platform
 } from 'react-native'
 
 import { Background } from '../../components/Background'
@@ -41,12 +42,11 @@ export default function UserLogin() {
                 setModalVisible(false)
             }, 3000)
             Vibration.vibrate(500)
-            console.log(email, password)
         })
     }
 
     return(
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
             <Background>
                 <Modal 
                     animationType="slide"
@@ -75,8 +75,8 @@ export default function UserLogin() {
                 
                 <LottieView
                     style={{
-                        width: 150,
-                        height: 150,
+                        width: 100,
+                        height: 100,
                         backgroundColor: 'transparent',
                         paddingTop: '5%'
                     }}
@@ -84,7 +84,7 @@ export default function UserLogin() {
                     autoPlay
                     loop
                 />
-                <StyledContainer color='transparent' width='90%' height='40%' marginTop='10%'>
+                <StyledContainer color='transparent' width='90%' height='40%' marginTop='20%'>
                     <StyledInput placeholder='Digite seu e-mail' style={{ marginBottom: '10%' }} value={ email } onChangeText={ setEmail }/>
                     <StyledInput placeholder='Digite sua senha' secureTextEntry={true} style={{ marginBottom: '15%' }} value={ password } onChangeText={ setPassword } />
                     <View style={{ alignItems: 'center'}}  >
