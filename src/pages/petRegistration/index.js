@@ -63,10 +63,10 @@ export default function PetRegistration() {
         </StyledContainer>
         <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 3, alignItems: 'center' }}>
           <StyledInput placeholder='Informe o nome do pet' height="10%" value={values.name} onChangeText={text => handleChange('petName', text)} />
-          <StyledSubmitButton onPress={() => navigation.navigate('qrCodeReader')}>
-            <StyledText color='#000'>
-              Clique aqui para cadastrar o pet e cadastrar seu pote
-              </StyledText>
+          <StyledSubmitButton onPress={() => navigation.navigate('qrCodeReader')} style={{ margin:'10%'}}>
+            <StyledText color='#000' style={{ marginTop:'8%'}}>
+              Clique aqui para cadastrar o pet
+            </StyledText>
           </StyledSubmitButton>
         </StyledContainer>
       </View>

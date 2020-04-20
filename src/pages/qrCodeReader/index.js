@@ -15,14 +15,14 @@ export default function QrCodeReader() {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    alert(`QR code do tipo ${type} com os seguintes dados ${data} foi escaneado!`);
   };
 
   if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+    return <Text>Solicitando acesso a camera!</Text>;
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return <Text>Sem acesso a camera :(</Text>;
   }
 
   return (
