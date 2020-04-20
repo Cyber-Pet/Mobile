@@ -9,15 +9,15 @@ import { StyledSubmitButton } from '../../components/StyledSubmitButton';
 import { StyledText } from '../../components/StyledText';
 import { Avatar } from 'react-native-elements';
 import api from '../../services/api';
-import { AuthContext } from '../../context/authContext';
+import { UserContext } from '../../context/UserContext';
 
 export default function PetRegistration() {
-  const { authState } = useContext(AuthContext)
+  const { userState } = useContext(UserContext)
   const navigation = useNavigation();
   const [values, setValues] = useState({
     petName: null,
     petImage: null,
-    userId: authState.userId,
+    userId: userState.id,
     petId: null,
     bowlId: null,
   })

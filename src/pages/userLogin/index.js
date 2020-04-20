@@ -9,11 +9,11 @@ import { StyledContainer } from '../../components/StyledContainer'
 import { StyledInput } from '../../components/StyledInput'
 import { StyledSubmitButton } from '../../components/StyledSubmitButton'
 import { StyledText } from '../../components/StyledText'
-import { AuthContext } from '../../context/authContext'
+import { UserContext } from '../../context/UserContext'
 
 
 export default function UserLogin() {
-    const { authService, authState } = useContext(AuthContext)
+    const { authService, userState } = useContext(UserContext)
     const navigation = useNavigation();
     const [values, setValues] = useState({
         email: null,
@@ -32,12 +32,12 @@ export default function UserLogin() {
 
     }
     useEffect(() => {
-        if (authState.errorMessages != null) {
-            setApiMessage(authState.errorMessages)
+        if (userState.errorMessages != null) {
+            setApiMessage(userState.errorMessages)
             openPopUp()
             Vibration.vibrate(500)
         }
-    }, [authState.errorMessages])
+    }, [userState.errorMessages])
 
     const handleChange = (name, value) => {
         setValues({

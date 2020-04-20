@@ -2,18 +2,18 @@ import React, { createContext, useEffect, useReducer } from 'react';
 import { AsyncStorage } from 'react-native';
 import api from '../services/api';
 var jwtDecode = require('jwt-decode');
-const AuthContext = createContext();
+const UserContext = createContext();
 const AuthProvider = ({ children }) => {
-  const { Provider } = AuthContext;
-  const [authState, dispatch] = useReducer((prevState, action) => {
+  const { Provider } = UserContext;
+  const [userState, dispatch] = useReducer((prevState, action) => {
     switch (action.type) {
       case 'RESTORE_TOKEN':
         return {
           ...prevState,
           userToken: action.token,
-          userId: action.userId,
-          userName: action.userName,
-          userEmail: action.userEmail,
+          id: action.userId,
+          name: action.userName,
+          email: action.userEmail,
           isLoading: false,
         };
       case 'SIGN_IN':
@@ -21,9 +21,9 @@ const AuthProvider = ({ children }) => {
           ...prevState,
           usSignout: false,
           userToken: action.token,
-          userId: action.userId,
-          userName: action.userName,
-          userEmail: action.userEmail,
+          id: action.userId,
+          name: action.userName,
+          email: action.userEmail,
         };
       case 'SIGN_OUT':
         return {
@@ -43,8 +43,9 @@ const AuthProvider = ({ children }) => {
       isLoading: true,
       isSignout: false,
       userToken: null,
-      userName: null,
-      userId: null,
+      name: null,
+      id: null,
+      email: null,
       errorMessages: null,
     }
   );
@@ -88,10 +89,10 @@ const AuthProvider = ({ children }) => {
   );
 
   return (
-    <Provider value={{ authState, authService }}>
+    <Provider value={{ userState, authService }}>
       {children}
     </Provider>
   );
 }
 
-export { AuthProvider, AuthContext };
+export { AuthProvider, UserContext };

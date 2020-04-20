@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import React, { useContext } from 'react'
-import { AuthContext } from './context/authContext'
+import { UserContext } from './context/UserContext'
 import Home from './pages/home/home'
 import PetRegistration from './pages/petRegistration/index'
 import QrCodeReader from './pages/qrCodeReader/index'
@@ -10,10 +10,10 @@ import UserRegistration from './pages/userRegistration/index'
 const Stack = createStackNavigator()
 
 export default function StackNavigator() {
-    const { authState } = useContext(AuthContext)
+    const { userState } = useContext(UserContext)
     return (
         <Stack.Navigator>
-            {authState.userToken == null ? (
+            {userState.userToken == null ? (
                 <>
                     <Stack.Screen name="userLogin" component={UserLogin} options={{
                         title: 'CyberPet Login',
