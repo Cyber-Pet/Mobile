@@ -13,7 +13,7 @@ const PopUpView = styled.View`
     padding-left: 20px;
 `
 
-const PopUp = props => {
+const PopUp = (props) => {
   const [closeIn, setCloseIn] = useState(props.autoCloseIn)
   useEffect(() => {
     setCloseIn(props.autoCloseIn);
@@ -26,7 +26,7 @@ const PopUp = props => {
 
   }, [props.visible])
   return (
-    <Modal
+    <Modal 
       animationType='slide'
       transparent={true}
       visible={props.visible}

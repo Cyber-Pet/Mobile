@@ -19,7 +19,7 @@ const AuthProvider = ({ children }) => {
       case 'SIGN_IN':
         return {
           ...prevState,
-          usSignout: false,
+          isSignout: false,
           userToken: action.token,
           id: action.userId,
           name: action.userName,
@@ -56,11 +56,13 @@ const AuthProvider = ({ children }) => {
       let decodedToken;
       try {
         userToken = await AsyncStorage.getItem('id_token');
-        decodedToken = jwtDecode(userToken);
+        if (userToken != null) {
+          decodedToken = jwtDecode(userToken);
+          dispatch({ type: 'RESTORE_TOKEN', token: userToken, userName: decodedToken.unique_name, userEmail: decodedToken.email, userId: decodedToken.Id })  
+        }
       } catch (e) {
         console.log(e);
       }
-      dispatch({ type: 'RESTORE_TOKEN', token: userToken, userName: decodedToken.unique_name, userEmail: decodedToken.email, userId: decodedToken.Id })
     }
     bootstrapAsync()
   }, [])
@@ -82,7 +84,18 @@ const AuthProvider = ({ children }) => {
         dispatch({ type: 'SIGN_OUT' });
       },
       signUp: async data => {
-        dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+        try {
+          const response = await api.post('/auth/register', data);
+          const responseLogin = await api.post('/auth/login', { 
+            email: response.data.data.email, 
+            password: data.password 
+          });
+          await AsyncStorage.setItem('id_token', responseLogin.data.data.token);
+        } catch (error) {
+          dispatch({ type: 'ERROR', messages: error.response.data.errors });
+        }
+
+        dispatch({ type: 'SIGN_IN', token: responseLogin.data.data.token, userName: decodedToken.unique_name, userEmail: decodedToken.email, userId: decodedToken.Id });
       },
     }),
     []

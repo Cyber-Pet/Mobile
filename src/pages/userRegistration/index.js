@@ -1,17 +1,17 @@
-import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import LottieView from "lottie-react-native";
-import React, { useEffect, useState } from 'react';
-import { KeyboardAvoidingView, Vibration, View } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { KeyboardAvoidingView, View } from 'react-native';
 import { Background } from '../../components/Background';
 import PopUp from '../../components/PopUpView';
 import { StyledContainer } from '../../components/StyledContainer';
 import { StyledInput } from '../../components/StyledInput';
 import { StyledSubmitButton } from '../../components/StyledSubmitButton';
 import { StyledText } from '../../components/StyledText';
-import api from '../../services/api';
+import { UserContext } from '../../context/UserContext';
 
 export default function UserRegistration() {
+  const { authService, userState } = useContext(UserContext)
   const cancelationToken = axios.CancelToken.source()
   const [values, setValues] = useState({
     name: null,
@@ -20,8 +20,6 @@ export default function UserRegistration() {
   })
   const [modalVisible, setModalVisible] = useState(false)
   const [apiMessage, setApiMessage] = useState([])
-
-  const navigation = useNavigation();
 
   const handleChange = (name, value) => {
     setValues({
@@ -37,26 +35,16 @@ export default function UserRegistration() {
     setModalVisible(false)
   }
   const createNewUser = async () => {
-    await api.post('/Auth/register', values, {
-      cancelToken: cancelationToken.token
-    }).then(response => {
-      const statusCode = response.status
-      if (statusCode == 201) {
-        navigation.navigate('home')
-      }
-    }).catch(error => {
-      if (axios.isCancel(error)) return;
-      setApiMessage(error.response.data.errors)
+    authService.signUp(values)
+  }
+
+  useEffect(() => {
+    if (userState.errorMessages != null) {
+      setApiMessage(userState.errorMessages)
       openPopUp()
       Vibration.vibrate(500)
-    })
-  }
-  useEffect(() => {
-    return () => {
-      closePopUp()
-      cancelationToken.cancel()
     }
-  }, [])
+  }, [userState.errorMessages])
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
