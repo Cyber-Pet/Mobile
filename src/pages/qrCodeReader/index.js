@@ -24,7 +24,7 @@ export default function QrCodeReader({ navigation, route }) {
       ...values,
       ["Id"]: data
     });
-    () => bowlLink();
+    bowlLink();
     navigation.goBack();
   };
 

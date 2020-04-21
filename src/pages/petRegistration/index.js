@@ -41,7 +41,7 @@ export default function PetRegistration() {
     } catch (E) {
       console.log(E);
     }
-  };
+  }
 
   const createNewPet = async () => {
     await api.post('/Pets', values

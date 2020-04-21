@@ -58,7 +58,7 @@ export default function Pet({ navigation, route }) {
         } catch (E) {
             console.log(E);
         }
-    };
+    }
 
     const updatePetImage = async () => {
         await api.put('/Pets/' + values.id,{
