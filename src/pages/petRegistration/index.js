@@ -19,7 +19,6 @@ export default function PetRegistration() {
     petName: null,
     petImage: null,
     userId: userState.id,
-    petId: null,
   })
   async function _pickImage() {
     try {
@@ -35,10 +34,21 @@ export default function PetRegistration() {
           ...values,
           ["petImage"]: result.base64 });
       }
-      console.log(result.uri);
     } catch (E) {
       console.log(E);
     }
+  };
+
+  const createNewPet = async () => {
+    const response = await api.post('/Pets', values
+    ).then(response => {
+      const statusCode = response.status
+      if (statusCode == 200) {
+        navigation.goBack();
+      }
+    }).catch(error => {
+      if (axios.isCancel(error)) return;
+    })
   };
   const handleChange = (name, value) => {
     setValues({
@@ -64,7 +74,7 @@ export default function PetRegistration() {
         </StyledContainer>
         <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 3, alignItems: 'center' }}>
           <StyledInput placeholder='Informe o nome do pet' height="10%" value={values.name} onChangeText={text => handleChange('petName', text)} />
-          <StyledSubmitButton onPress={() => navigation.navigate('qrCodeReader')} style={{ margin:'10%'}}>
+          <StyledSubmitButton onPress={() => createNewPet()} style={{ margin:'10%'}}>
             <StyledText color='#000' style={{ marginTop:'8%'}}>
               Clique aqui para cadastrar o pet
             </StyledText>
