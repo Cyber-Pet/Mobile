@@ -72,7 +72,7 @@ export default function UserLogin() {
                     <StyledInput placeholder='Digite seu e-mail' style={{ marginBottom: '10%' }} value={values.email} onChangeText={text => handleChange('email', text)} />
                     <StyledInput placeholder='Digite sua senha' secureTextEntry={true} style={{ marginBottom: '15%' }} value={values.password} onChangeText={text => handleChange('password', text)} />
                     <View style={{ alignItems: 'center' }}  >
-                        <StyledSubmitButton onPress={loginRequest} >
+                        <StyledSubmitButton height='40%' onPress={loginRequest} >
                             <StyledText color='#000' fontSize='20px' >
                                 Login
                             </StyledText>

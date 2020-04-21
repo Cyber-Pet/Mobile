@@ -16,7 +16,6 @@ export default function Home() {
   useEffect(() => {
     api.get('/pets/user/' + userState.id)
       .then(response => {
-        console.log(response)
         setPets(response.data.data)
       })
       .catch(erro => console.log(erro))
@@ -35,6 +34,11 @@ export default function Home() {
               key={pets.id}
               title={pets.petName}
               chevron
+              onPress={() => navigation.navigate('pet', {
+                 petId: pets.id,
+                 petName: pets.petName,
+                 petImage: pets.petImage
+              })}
             />
           ))
         }

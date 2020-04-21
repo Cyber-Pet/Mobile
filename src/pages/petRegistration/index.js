@@ -1,9 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-import { Header } from '@react-navigation/stack'
+import { Header } from '@react-navigation/stack';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState, useContext } from 'react';
-import { Image, KeyboardAvoidingView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { 
+  KeyboardAvoidingView, 
+  StyleSheet, 
+  View 
+} from 'react-native';
 import { StyledContainer } from '../../components/StyledContainer';
 import { StyledInput } from '../../components/StyledInput';
 import { StyledSubmitButton } from '../../components/StyledSubmitButton';

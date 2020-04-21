@@ -7,6 +7,7 @@ import PetRegistration from './pages/petRegistration/index'
 import QrCodeReader from './pages/qrCodeReader/index'
 import UserLogin from './pages/userLogin/index'
 import UserRegistration from './pages/userRegistration/index'
+import Pet from './pages/pet/index.js'
 
 const Stack = createStackNavigator()
 
@@ -41,6 +42,11 @@ export default function StackNavigator() {
                         <Stack.Screen name="qrCodeReader" component={QrCodeReader} options={{
                             title: 'Leitura do pote',
                         }} />
+
+                        <Stack.Screen name="pet" component={Pet} options={{
+                            title: 'Pet'
+                        }} />
+
                     </>
                 )
             }
