@@ -44,7 +44,7 @@ export default function PetRegistration() {
   };
 
   const createNewPet = async () => {
-    const response = await api.post('/Pets', values
+    await api.post('/Pets', values
     ).then(response => {
       const statusCode = response.status
       if (statusCode == 200) {
@@ -78,7 +78,7 @@ export default function PetRegistration() {
         </StyledContainer>
         <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 3, alignItems: 'center' }}>
           <StyledInput placeholder='Informe o nome do pet' height="10%" value={values.name} onChangeText={text => handleChange('petName', text)} />
-          <StyledSubmitButton onPress={() => createNewPet()} style={{ margin:'13%'}}>
+          <StyledSubmitButton height='10%'onPress={() => createNewPet()} style={{ margin:'13%'}}>
             <StyledText color='#000' style={{ marginTop:'10%'}}>
               Clique aqui para cadastrar o pet
             </StyledText>

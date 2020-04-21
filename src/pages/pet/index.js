@@ -18,7 +18,8 @@ import { Background } from '../../components/Background';
 import { StyledText } from '../../components/StyledText';
 import api from '../../services/api'
 import { UserContext } from '../../context/UserContext';
-import { StyledSubmitButton } from '../../components/StyledSubmitButton'
+import { StyledSubmitButton } from '../../components/StyledSubmitButton';
+import { AntDesign } from '@expo/vector-icons';
 
 export default function Pet({ navigation, route }) {   
     const { userState } = useContext(UserContext)
@@ -30,6 +31,7 @@ export default function Pet({ navigation, route }) {
         petImage: null,
         userId: userState.id,
         id: null,
+        scanned: false,
     })
         
     function toggleSwitch(id,valor) {
@@ -97,9 +99,19 @@ export default function Pet({ navigation, route }) {
                 />
                 <StyledInput placeholder={`${petName}`} style={{marginTop:'10%'}} height='30%' value={values.petName}></StyledInput>
             </View>
-            <View style={{ flex: 1 }}>
-
+            {values.scanned == false ? (
+            <View style={{ flex: 1, alignItems: 'center' }}>
+                <StyledText> Clique no ícone abaixo para vincular seu pote: </StyledText>
+                <AntDesign.Button 
+                    name='qrcode' 
+                    color='black' 
+                    backgroundColor="transparent" 
+                    size={150} 
+                    onPress={() => navigation.navigate('qrCodeReader', {
+                        petId: petId
+                    })}/>
             </View>
+            ) : (
             <View style={{ flex: 3, width: '100%' }}>
                 <Card title={'Defina os horários'}> 
                     {
@@ -114,6 +126,9 @@ export default function Pet({ navigation, route }) {
                     }
                 </Card>
             </View>
+            )
+            }
+            
             <View style={{ flex: 1, width: '100%', justifyContent: 'flex-end' }}>
                 <StyledSubmitButton style={{height: '60%'}} onPress={() => isEnabled()}>
                     <StyledText>
