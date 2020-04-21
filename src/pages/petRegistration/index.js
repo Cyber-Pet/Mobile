@@ -57,6 +57,9 @@ export default function PetRegistration() {
               size="xlarge"
               showEditButton
               icon={{name: 'pets', type: 'material-design'}}
+              source={{ 
+                uri: `data:image/png;base64,${values.petImage}`
+              }}
             />
         </StyledContainer>
         <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 3, alignItems: 'center' }}>
