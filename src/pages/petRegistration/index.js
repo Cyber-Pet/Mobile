@@ -79,9 +79,7 @@ export default function PetRegistration() {
               rounded
               size="xlarge"
               showEditButton
-              source={{
-                uri: values.petImage ? `data:image/png;base64,${values.petImage}` : 'https://image.flaticon.com/icons/png/512/194/194279.png'
-              }}
+              icon={{name: 'pets', type: 'material-design'}}
             />
         </StyledContainer>
         <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 3, alignItems: 'center' }}>
