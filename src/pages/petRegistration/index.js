@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import { Header } from '@react-navigation/stack'
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState, useContext } from 'react';
 import { Image, KeyboardAvoidingView, StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -19,7 +20,6 @@ export default function PetRegistration() {
     petImage: null,
     userId: userState.id,
     petId: null,
-    bowlId: null,
   })
   async function _pickImage() {
     try {
@@ -47,7 +47,7 @@ export default function PetRegistration() {
     });
   };
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+    <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={Header.HEIGHT} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
       <View style={styles.MainContainer}>
       <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 1, alignItems: 'center' }}>
             <Avatar
