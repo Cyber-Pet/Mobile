@@ -64,7 +64,7 @@ export default function PetRegistration() {
               onPress={_pickImage}
               activeOpacity={0.5}
               rounded
-              size="xlarge"
+              size={120}
               showEditButton
               icon={{name: 'pets', type: 'material-design'}}
               source={{ 
@@ -74,8 +74,8 @@ export default function PetRegistration() {
         </StyledContainer>
         <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 3, alignItems: 'center' }}>
           <StyledInput placeholder='Informe o nome do pet' height="10%" value={values.name} onChangeText={text => handleChange('petName', text)} />
-          <StyledSubmitButton onPress={() => createNewPet()} style={{ margin:'10%'}}>
-            <StyledText color='#000' style={{ marginTop:'8%'}}>
+          <StyledSubmitButton onPress={() => createNewPet()} style={{ margin:'13%'}}>
+            <StyledText color='#000' style={{ marginTop:'10%'}}>
               Clique aqui para cadastrar o pet
             </StyledText>
           </StyledSubmitButton>
