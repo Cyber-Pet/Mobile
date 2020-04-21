@@ -27,10 +27,10 @@ export default function Pet({ navigation, route }) {
     const { petName } = route.params;
     const { petImage } = route.params;
     const [values, setValues] = useState({
-        petName: null,
+        petName: petName,
         petImage: petImage,
         userId: userState.id,
-        id: null,
+        id: petId,
         scanned: true,
     })
     const [ editable, setEditable ] = useState({
@@ -61,10 +61,21 @@ export default function Pet({ navigation, route }) {
                     ...values,
                     ["petImage"]: result.base64});
             }
+            updatePetImage();
         } catch (E) {
             console.log(E);
         }
     };
+
+    const updatePetImage = async () => {
+        await api.put('/Pets/' + values.id,{
+            userId: values.userId,
+            petImage: values.petImage,
+            petName: values.petName}).then(response => {
+                console.log(response);
+            })
+        
+    }
 
     function toggleSwitch(id,valor) {
         let pos = -1;
