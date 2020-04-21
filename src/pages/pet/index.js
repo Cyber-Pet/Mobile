@@ -31,7 +31,7 @@ export default function Pet({ navigation, route }) {
         petImage: null,
         userId: userState.id,
         id: null,
-        scanned: false,
+        scanned: true,
     })
         
     function toggleSwitch(id,valor) {
@@ -42,8 +42,7 @@ export default function Pet({ navigation, route }) {
                 break;
             }
         }
-        
-        
+             
         setItems({
             ...items,
             ['valor']: valor
@@ -100,7 +99,7 @@ export default function Pet({ navigation, route }) {
                 <StyledInput placeholder={`${petName}`} style={{marginTop:'10%'}} height='30%' value={values.petName}></StyledInput>
             </View>
             {values.scanned == false ? (
-            <View style={{ flex: 1, alignItems: 'center' }}>
+            <View style={{ flex: 3, alignItems: 'center' }}>
                 <StyledText> Clique no ícone abaixo para vincular seu pote: </StyledText>
                 <AntDesign.Button 
                     name='qrcode' 
