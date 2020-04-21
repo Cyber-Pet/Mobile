@@ -28,12 +28,23 @@ export default function Pet({ navigation, route }) {
     const { petImage } = route.params;
     const [values, setValues] = useState({
         petName: null,
-        petImage: null,
+        petImage: petImage,
         userId: userState.id,
         id: null,
         scanned: true,
     })
+    const [ editable, setEditable ] = useState({
+        editable: false,
+        defaultText: values.petName,
+        
+    })
     
+    function changeToEditable() {
+        setEditable({
+            ...editable,
+            ['editable']: true,
+        });
+    }
     async function _pickImage() {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
@@ -97,65 +108,83 @@ export default function Pet({ navigation, route }) {
         ]);
     };
     return(
-        <Background>
-            <View style={{ 
-                flex: 2, 
-                width: '80%', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                marginTop: '15%'
-            }}>
-                <Avatar
-                    onPress={_pickImage}
-                    activeOpacity={0.5}
-                    rounded
-                    size={120}
-                    showEditButton
-                    icon={{name: 'pets', type: 'material-design'}}
-                    source={{
-                        uri: `data:image/png;base64,${values.petImage}`
-                    }}
-                />
-                <StyledInput placeholder={`${petName}`} style={{marginTop:'10%'}} height='30%' value={values.petName}></StyledInput>
-            </View>
-            {values.scanned == false ? (
-            <View style={{ flex: 3, alignItems: 'center' }}>
-                <StyledText> Clique no ícone abaixo para vincular seu pote: </StyledText>
-                <AntDesign.Button 
-                    name='qrcode' 
-                    color='black' 
-                    backgroundColor="transparent" 
-                    size={150} 
-                    onPress={() => navigation.navigate('qrCodeReader', {
-                        petId: petId
-                    })}/>
-            </View>
-            ) : (
-            <View style={{ flex: 3, width: '100%' }}>
-                <Card title={'Defina os horários'}> 
-                    {
-                        items.map(item => (
-                            <ListItem key={item.id} title={item.horario} switch={{
-                                trackColor:{false: "#767576", true: "#81b0ff"},
-                                ios_backgroundColor:"#3e3e3e",
-                                onValueChange:(valor) => toggleSwitch(item.id,valor),
-                                value:item.valor
-                            }}/>
-                        ))
-                    }
-                </Card>
-            </View>
-            )
-            }
-            
-            <View style={{ flex: 1, width: '100%', justifyContent: 'flex-end' }}>
-                <StyledSubmitButton style={{height: '60%'}} onPress={() => isEnabled()}>
-                    <StyledText>
-                        CLIQUE AQUI PARA ALIMENTAR SEU PET
-                    </StyledText>
-                </StyledSubmitButton>
-            </View>
-        </Background>
+        <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={Header.HEIGHT} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
+            <Background>
+                <View style={{ 
+                    flex: 2, 
+                    width: '80%', 
+                    alignItems: 'center', 
+                    justifyContent: 'center',
+                    marginTop: '15%'
+                }}>
+                    <Avatar
+                        onPress={_pickImage}
+                        activeOpacity={0.5}
+                        rounded
+                        size={120}
+                        showEditButton
+                        icon={{name: 'pets', type: 'material-design'}}
+                        source={{
+                            uri: `data:image/png;base64,${values.petImage}`
+                        }}
+                    />
+                    <View style={{ flex: 1, flexDirection:'row' }}>
+                        <StyledInput 
+                            defaultValue={`${petName}`}
+                            style={{marginTop:'10%'}} 
+                            height='30%' 
+                            placeholder='Insira o nome do seu pet'
+                            value={ editable.defaultText }
+                            editable={ editable.editable } />
+                        <AntDesign.Button
+                            underlayColor='rgba(166,166,166,0.2)'
+                            name='edit'
+                            color='black'
+                            backgroundColor='transparent'
+                            size={40}
+                            style={{ marginTop:'38%' }}
+                            onPress={ () => changeToEditable()} />
+                    </View>
+                </View>
+                {values.scanned == false ? (
+                <View style={{ flex: 3, alignItems: 'center' }}>
+                    <StyledText> Clique no ícone abaixo para vincular seu pote: </StyledText>
+                    <AntDesign.Button 
+                        name='qrcode' 
+                        color='black' 
+                        backgroundColor="transparent" 
+                        size={150} 
+                        onPress={() => navigation.navigate('qrCodeReader', {
+                            petId: petId
+                        })}/>
+                </View>
+                ) : (
+                <View style={{ flex: 3, width: '100%' }}>
+                    <Card title={'Defina os horários'}> 
+                        {
+                            items.map(item => (
+                                <ListItem key={item.id} title={item.horario} switch={{
+                                    trackColor:{false: "#767576", true: "#81b0ff"},
+                                    ios_backgroundColor:"#3e3e3e",
+                                    onValueChange:(valor) => toggleSwitch(item.id,valor),
+                                    value:item.valor
+                                }}/>
+                            ))
+                        }
+                    </Card>
+                </View>
+                )
+                }
+                
+                <View style={{ flex: 1, width: '100%', justifyContent: 'flex-end' }}>
+                    <StyledSubmitButton style={{height: '60%'}} onPress={() => isEnabled()}>
+                        <StyledText>
+                            CLIQUE AQUI PARA ALIMENTAR SEU PET
+                        </StyledText>
+                    </StyledSubmitButton>
+                </View>
+            </Background>
+        </KeyboardAvoidingView>
     )
 }
 
