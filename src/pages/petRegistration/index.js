@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import { Header } from '@react-navigation/stack'
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState, useContext } from 'react';
 import { Image, KeyboardAvoidingView, StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -19,7 +20,6 @@ export default function PetRegistration() {
     petImage: null,
     userId: userState.id,
     petId: null,
-    bowlId: null,
   })
   async function _pickImage() {
     try {
@@ -27,42 +27,19 @@ export default function PetRegistration() {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
-        quality: 1,
+        quality: 0.1,
         base64: true,
       });
       if (!result.cancelled) {
-        values.petImage = result.base64;
-        sendPetImage();
-        getPetImage();
+        setValues({ 
+          ...values,
+          ["petImage"]: result.base64 });
       }
       console.log(result.uri);
     } catch (E) {
       console.log(E);
     }
   };
-
-  async function sendPetImage() {
-    api.post('/Pets', {
-      petName: '',
-      petImage: values.petImage,
-      userId: values.userId
-    }).then(response => {
-      let petId = response.data.data.id;
-      values.petId = petId;
-    }).catch(error => {
-      console.log(error)
-    })
-
-  }
-  async function getPetImage() {
-    api.get('/Pets/' + values.petId).then(response => {
-      const petImageBase64 = response.data.data.petImage;
-      handleChange('petImage', petImageBase64);
-      console.log('get' + response.data.data.id);
-    }).catch(error => {
-      console.log(error)
-    })
-  }
   const handleChange = (name, value) => {
     setValues({
       ...values,
@@ -70,7 +47,7 @@ export default function PetRegistration() {
     });
   };
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+    <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={Header.HEIGHT} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
       <View style={styles.MainContainer}>
       <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 1, alignItems: 'center' }}>
             <Avatar
@@ -84,10 +61,10 @@ export default function PetRegistration() {
         </StyledContainer>
         <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 3, alignItems: 'center' }}>
           <StyledInput placeholder='Informe o nome do pet' height="10%" value={values.name} onChangeText={text => handleChange('petName', text)} />
-          <StyledSubmitButton onPress={() => navigation.navigate('qrCodeReader')}>
-            <StyledText color='#000'>
-              Clique aqui para cadastrar o pet e cadastrar seu pote
-              </StyledText>
+          <StyledSubmitButton onPress={() => navigation.navigate('qrCodeReader')} style={{ margin:'10%'}}>
+            <StyledText color='#000' style={{ marginTop:'8%'}}>
+              Clique aqui para cadastrar o pet
+            </StyledText>
           </StyledSubmitButton>
         </StyledContainer>
       </View>
