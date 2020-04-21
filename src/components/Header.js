@@ -17,6 +17,10 @@ const styles = StyleSheet.create({
 const Header = ({ scene, previous, navigation }) => {
   const { authService, userState } = useContext(UserContext)
 
+  const canGoBack = () => {
+    return !(scene.route.name == 'home' || scene.route.name == 'userLogin')
+  }
+
   const [profileImageUrl, setprofileImageUrl] = useState("")
   const { options } = scene.descriptor;
   const title =
@@ -40,6 +44,13 @@ const Header = ({ scene, previous, navigation }) => {
     <Appbar.Header
       style={styles.headerStyle}
     >
+      {
+        canGoBack() ? (
+        <Appbar.BackAction
+          onPress={navigation.goBack}
+        />) : (<></>)
+      }
+      
       <Appbar.Content
         style={styles.headerTitleStyle}
         title={title}

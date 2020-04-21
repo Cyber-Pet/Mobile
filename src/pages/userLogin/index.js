@@ -24,12 +24,7 @@ export default function UserLogin() {
 
 
     async function loginRequest() {
-        try {
-            authService.signIn(values);
-        } catch (error) {
-
-        }
-
+        authService.signIn(values);
     }
     useEffect(() => {
         if (userState.errorMessages != null) {
