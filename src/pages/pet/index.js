@@ -105,7 +105,7 @@ export default function Pet({ navigation, route }) {
                     {
                         items.map(item => (
                             <ListItem key={item.id} title={item.horario} switch={{
-                                trackColor:{false: "#767577", true: "#81b0ff"},
+                                trackColor:{false: "#767576", true: "#81b0ff"},
                                 ios_backgroundColor:"#3e3e3e",
                                 onValueChange:(valor) => toggleSwitch(item.id,valor),
                                 value:item.valor
