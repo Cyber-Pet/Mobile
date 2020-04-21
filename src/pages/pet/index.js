@@ -1,18 +1,11 @@
-import { useNavigation } from '@react-navigation/native';
 import { Card, Avatar, ListItem } from 'react-native-elements'
-import axios from 'axios';
 import { Header } from '@react-navigation/stack';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState, useContext } from 'react';
 import { 
     KeyboardAvoidingView, 
-    StyleSheet, 
-    TouchableOpacity, 
     View,
-    Button,
-    Switch
 } from 'react-native';
-import { StyledContainer } from '../../components/StyledContainer';
 import { StyledInput } from '../../components/StyledInput'
 import { Background } from '../../components/Background';
 import { StyledText } from '../../components/StyledText';
