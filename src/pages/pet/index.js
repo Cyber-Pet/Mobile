@@ -36,13 +36,15 @@ export default function Pet({ navigation, route }) {
     const [ editable, setEditable ] = useState({
         editable: false,
         defaultText: values.petName,
-        
+        color: 'rgba(166,166,166,0.8)'
+
     })
     
     function changeToEditable() {
         setEditable({
             ...editable,
             ['editable']: true,
+            ['color']: '#000',
         });
     }
     async function _pickImage() {
@@ -132,17 +134,18 @@ export default function Pet({ navigation, route }) {
                         <StyledInput 
                             defaultValue={`${petName}`}
                             style={{marginTop:'10%'}} 
-                            height='30%' 
+                            height='70%'
+                            color={ editable.color }
                             placeholder='Insira o nome do seu pet'
                             value={ editable.defaultText }
                             editable={ editable.editable } />
                         <AntDesign.Button
                             underlayColor='rgba(166,166,166,0.2)'
                             name='edit'
-                            color='black'
+                            color='rgba(99,99,99,0.9)'
                             backgroundColor='transparent'
                             size={40}
-                            style={{ marginTop:'38%' }}
+                            style={{ marginTop:'100%' }}
                             onPress={ () => changeToEditable()} />
                     </View>
                 </View>

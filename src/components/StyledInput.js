@@ -7,7 +7,7 @@ export const StyledInput = styled.TextInput`
     border-bottom-color: #000;
     height: ${props => props.height || '20%'};
     border-radius: 10px;
-    color: #000000;
+    color: ${props => props.color || '#000000'};
     padding-left: 10px;
     font-size: ${props => props.fontSize || '20px'};
 `
