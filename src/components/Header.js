@@ -7,10 +7,14 @@ import { UserContext } from '../context/UserContext';
 const styles = StyleSheet.create({
   headerStyle: {
     backgroundColor: '#8AC6D1',
+    color: '#FFF',
   },
   headerTitleStyle: {
     fontWeight: 'bold',
     color: '#FFF',
+  },
+  backButtonStyle: {
+    color: '#FFF'
   }
 });
 
@@ -48,11 +52,12 @@ const Header = ({ scene, previous, navigation }) => {
         canGoBack() ? (
         <Appbar.BackAction
           onPress={navigation.goBack}
+          color={'#FFF'}
         />) : (<></>)
       }
       
       <Appbar.Content
-        style={styles.headerTitleStyle}
+        titleStyle={styles.headerTitleStyle}
         title={title}
       />
       {

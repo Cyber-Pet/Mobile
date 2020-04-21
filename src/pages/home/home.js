@@ -16,6 +16,7 @@ export default function Home() {
   useEffect(() => {
     api.get('/pets/user/' + userState.id)
       .then(response => {
+        console.log(response)
         setPets(response.data.data)
       })
       .catch(erro => console.log(erro))
@@ -28,7 +29,8 @@ export default function Home() {
           pets.map((pets) => (
             <ListItem
               leftAvatar={{
-                title: pets.petName[0]
+                title: pets.petName[0],
+                source: { uri: `data:image/png;base64,${pets.petImage}` }
               }}
               key={pets.id}
               title={pets.petName}
