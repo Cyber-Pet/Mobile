@@ -72,26 +72,26 @@ export default function UserLogin() {
                     <StyledInput placeholder='Digite seu e-mail' style={{ marginBottom: '10%' }} value={values.email} onChangeText={text => handleChange('email', text)} />
                     <StyledInput placeholder='Digite sua senha' secureTextEntry={true} style={{ marginBottom: '15%' }} value={values.password} onChangeText={text => handleChange('password', text)} />
                     <View style={{ alignItems: 'center' }}  >
-                        <StyledSubmitButton height='40%' onPress={loginRequest} >
+                        <StyledSubmitButton height='45%' onPress={loginRequest} >
                             <StyledText color='#000' fontSize='20px' >
                                 Login
                             </StyledText>
                         </StyledSubmitButton>
                     </View>
-                    <View style={{ alignItems: 'center' }}>
-                        <TouchableOpacity
-                            style={{ flexDirection: 'row', marginTop: '10%' }}
-                            onPress={() => navigation.navigate('userRegistration')
-                            }>
-                            <StyledText fontWeight='normal' >
-                                Não tem uma conta?
-                                </StyledText>
-                            <StyledText color='#000' style={{ paddingLeft: 5 }}>
-                                Cadastre-se.
-                                </StyledText>
-                        </TouchableOpacity>
-                    </View>
                 </StyledContainer>
+                <View style={{ alignItems: 'center' }}>
+                    <TouchableOpacity
+                        style={{ flexDirection: 'row', marginTop: '10%' }}
+                        onPress={() => navigation.navigate('userRegistration')
+                        }>
+                        <StyledText fontWeight='normal' >
+                            Não tem uma conta?
+                            </StyledText>
+                        <StyledText color='#000' style={{ paddingLeft: 5 }}>
+                            Cadastre-se.
+                        </StyledText>
+                    </TouchableOpacity>
+                </View>
             </Background>
         </KeyboardAvoidingView>
     )

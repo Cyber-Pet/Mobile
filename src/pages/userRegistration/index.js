@@ -68,7 +68,7 @@ export default function UserRegistration() {
 
           <StyledInput placeholder='Digite sua senha (min. 6 caracteres)' secureTextEntry={true} value={values.password} style={{ marginBottom: "10%" }} onChangeText={text => handleChange('password', text)} />
           <View style={{ alignItems: 'center' }} >
-            <StyledSubmitButton onPress={() => createNewUser()}>
+            <StyledSubmitButton onPress={() => createNewUser()} height={'45%'} >
               <StyledText color='#000' fontSize='20px'>
                 Cadastrar
               </StyledText>
