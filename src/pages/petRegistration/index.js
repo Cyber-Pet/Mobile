@@ -61,7 +61,11 @@ export default function PetRegistration() {
     });
   };
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={Header.HEIGHT} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
+    <KeyboardAvoidingView
+    style={{ flex: 1}}
+    behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
+  >
       <View style={styles.MainContainer}>
       <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 1, alignItems: 'center' }}>
             <Avatar

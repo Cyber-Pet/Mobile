@@ -12,7 +12,7 @@ import { StyledText } from '../../components/StyledText';
 import api from '../../services/api'
 import { UserContext } from '../../context/UserContext';
 import { StyledSubmitButton } from '../../components/StyledSubmitButton';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, FontAwesome } from '@expo/vector-icons';
 
 
 export default function Pet({ navigation, route }) {   
@@ -123,40 +123,43 @@ export default function Pet({ navigation, route }) {
                     width: '80%', 
                     alignItems: 'center', 
                     justifyContent: 'center',
-                    marginTop: '15%'
+                    marginTop: '6%'
                 }}>
-                    <Avatar
-                        onPress={_pickImage}
-                        activeOpacity={0.5}
-                        rounded
-                        size={120}
-                        showEditButton
-                        icon={{name: 'pets', type: 'material-design'}}
-                        source={{
-                            uri: `data:image/png;base64,${values.petImage}`
-                        }}
-                    />
-                    <View style={{ flex: 1, flexDirection:'row' }}>
-                        <StyledInput 
+                    <View style={{flex: 1}}>
+                        <Avatar
+                            onPress={_pickImage}
+                            activeOpacity={0.5}
+                            rounded
+                            size={120}
+                            showEditButton
+                            icon={{name: 'pets', type: 'material-design'}}
+                            source={{
+                                uri: `data:image/png;base64,${values.petImage}`
+                            }}
+                        />
+                    </View>
+                    <View style={{ flex: 1, flexDirection:'row', alignItems: 'center', marginTop: 20 }}>
+                        <StyledInput
                             defaultValue={`${petName}`}
-                            style={{marginTop:'10%'}} 
-                            height='70%'
+                            height='30%'
                             color={ editable.color }
                             placeholder='Insira o nome do seu pet'
                             value={ editable.defaultText }
-                            editable={ editable.editable } />
-                        <AntDesign.Button
+                            editable={ editable.editable } 
+                            borderBottomWidth={'0px'}
+                        />
+                        <FontAwesome.Button
                             underlayColor='rgba(166,166,166,0.2)'
-                            name='edit'
+                            name='pencil'
                             color='rgba(99,99,99,0.9)'
                             backgroundColor='transparent'
-                            size={40}
-                            style={{ marginTop:'100%' }}
-                            onPress={ () => changeToEditable()} />
+                            size={20}
+                            onPress={ () => changeToEditable()} 
+                        />
                     </View>
                 </View>
                 {values.scanned == false ? (
-                <View style={{ flex: 3, alignItems: 'center' }}>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: '10%'}}>
                     <StyledText> Clique no ícone abaixo para vincular seu pote: </StyledText>
                     <AntDesign.Button 
                         name='qrcode' 
@@ -165,7 +168,8 @@ export default function Pet({ navigation, route }) {
                         size={150} 
                         onPress={() => navigation.navigate('qrCodeReader', {
                             petId: petId
-                        })}/>
+                        })}
+                    />
                 </View>
                 ) : (
                 <View style={{ flex: 3, width: '100%' }}>

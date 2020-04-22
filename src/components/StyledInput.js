@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 export const StyledInput = styled.TextInput`
     width: 100%;
     background-color: transparent;
-    border-bottom-width: 2px;
+    border-bottom-width: ${props => props.borderBottomWidth || '2px'} ;
     border-bottom-color: #000;
     height: ${props => props.height || '20%'};
     border-radius: 10px;
