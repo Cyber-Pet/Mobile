@@ -21,6 +21,21 @@ export default function Home() {
       .catch(erro => console.log(erro))
   }, [])
 
+  const navigateToPetPage = (petId, petName, petImage) => {
+    let scanned = verifyIfHasBowl();
+    navigation.navigate('pet', {
+      petId: petId,
+      petName: petName,
+      petImage: petImage,
+      scanned: scanned
+   })
+  }
+
+  function verifyIfHasBowl() {
+    let scanned = false;
+    return (scanned)
+  }
+
   return (
     <Background>
       <ScrollView style={{ width: '100%' }}>
@@ -34,11 +49,7 @@ export default function Home() {
               key={pets.id}
               title={pets.petName}
               chevron
-              onPress={() => navigation.navigate('pet', {
-                 petId: pets.id,
-                 petName: pets.petName,
-                 petImage: pets.petImage
-              })}
+              onPress={() => navigateToPetPage(pets.id,pets.petName,pets.petImage)}
             />
           ))
         }
