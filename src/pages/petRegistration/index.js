@@ -6,7 +6,8 @@ import React, { useState, useContext } from 'react';
 import { 
   KeyboardAvoidingView, 
   StyleSheet, 
-  View 
+  View,
+  Text
 } from 'react-native';
 import { StyledContainer } from '../../components/StyledContainer';
 import { StyledInput } from '../../components/StyledInput';
@@ -62,28 +63,35 @@ export default function PetRegistration() {
   };
   return (
     <KeyboardAvoidingView
-    style={{ flex: 1}}
-    behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
+      style={{ flex: 1}}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
   >
       <View style={styles.MainContainer}>
-      <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 1, alignItems: 'center' }}>
-            <Avatar
-              onPress={_pickImage}
-              activeOpacity={0.5}
-              rounded
-              size={120}
-              showEditButton
-              icon={{name: 'pets', type: 'material-design'}}
-              source={{ 
-                uri: `data:image/png;base64,${values.petImage}`
-              }}
-            />
+      <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 2, alignItems: 'center' }}>
+            <View style={{width: '100%', alignItems: 'center', justifyContent: 'center'}} >
+              <Avatar
+                onPress={_pickImage}
+                activeOpacity={0.5}
+                rounded
+                size={120}
+                showEditButton
+                icon={{name: 'pets', type: 'material-design'}}
+                source={{ 
+                  uri: `data:image/png;base64,${values.petImage}`
+                }}
+              />
+            </View>
+            <View style={{width: '100%', alignItems: 'center', justifyContent: 'flex-end', marginTop: 40}}>
+                <StyledText fontSize={'20px'}>
+                  {values.petName}
+                </StyledText>
+            </View>
         </StyledContainer>
-        <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 3, alignItems: 'center' }}>
-          <StyledInput placeholder='Informe o nome do pet' height="10%" value={values.name} onChangeText={text => handleChange('petName', text)} />
-          <StyledSubmitButton height='10%'onPress={() => createNewPet()} style={{ margin:'13%'}}>
-            <StyledText color='#000' style={{ marginTop:'10%'}}>
+        <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 3, alignItems: 'center', justifyContent: 'center'}}>
+          <StyledInput  style={{marginBottom: '15%'}} placeholder='Informe o nome do pet' height="10%" value={values.name} onChangeText={text => handleChange('petName', text)}/>
+          <StyledSubmitButton onPress={() => createNewPet()}>
+            <StyledText color='#000'>
               Clique aqui para cadastrar o pet
             </StyledText>
           </StyledSubmitButton>
