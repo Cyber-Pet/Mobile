@@ -68,7 +68,7 @@ export default function PetRegistration() {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
   >
       <View style={styles.MainContainer}>
-      <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 2, alignItems: 'center' }}>
+      <StyledContainer color='transparent' width='100%' marginTop='10%' style={{ flex: 2, alignItems: 'center' }}>
             <View style={{width: '100%', alignItems: 'center', justifyContent: 'center'}} >
               <Avatar
                 onPress={_pickImage}
@@ -89,8 +89,8 @@ export default function PetRegistration() {
             </View>
         </StyledContainer>
         <StyledContainer color='transparent' width='90%' marginTop='10%' style={{ flex: 3, alignItems: 'center', justifyContent: 'center'}}>
-          <StyledInput  style={{marginBottom: '15%'}} placeholder='Informe o nome do pet' height="10%" value={values.name} onChangeText={text => handleChange('petName', text)}/>
-          <StyledSubmitButton onPress={() => createNewPet()}>
+          <StyledInput style={{marginBottom: '15%'}} placeholder='Informe o nome do pet' height="10%" value={values.name} onChangeText={text => handleChange('petName', text)}/>
+          <StyledSubmitButton onPress={() => createNewPet()} height={'50px'}>
             <StyledText color='#000'>
               Clique aqui para cadastrar o pet
             </StyledText>
