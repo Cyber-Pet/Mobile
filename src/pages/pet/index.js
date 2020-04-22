@@ -1,7 +1,7 @@
 import { Card, Avatar, ListItem } from 'react-native-elements'
 import { Header } from '@react-navigation/stack';
 import * as ImagePicker from 'expo-image-picker';
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext, componentWillMount } from 'react';
 import { 
     KeyboardAvoidingView, 
     View,
@@ -19,12 +19,13 @@ export default function Pet({ navigation, route }) {
     const { petId }  = route.params;
     const { petName } = route.params;
     const { petImage } = route.params;
+    const { scanned } = route.params;
     const [values, setValues] = useState({
         petName: petName,
         petImage: petImage,
         userId: userState.id,
         id: petId,
-        scanned: true,
+        scanned: scanned,
     })
     const [ editable, setEditable ] = useState({
         editable: false,
@@ -32,7 +33,7 @@ export default function Pet({ navigation, route }) {
         color: 'rgba(166,166,166,0.8)'
 
     })
-    
+
     function changeToEditable() {
         setEditable({
             ...editable,
