@@ -14,6 +14,7 @@ import { UserContext } from '../../context/UserContext';
 import { StyledSubmitButton } from '../../components/StyledSubmitButton';
 import { AntDesign } from '@expo/vector-icons';
 
+
 export default function Pet({ navigation, route }) {   
     const { userState } = useContext(UserContext)
     const { petId }  = route.params;
@@ -27,6 +28,49 @@ export default function Pet({ navigation, route }) {
         id: petId,
         scanned: scanned,
     })
+        const [switchIsEnabled, setSwitchIsEnabled] = useState({
+        switch1: false,
+        switch2: false
+    })
+
+    const toggleSwitch = {
+        toggleSwitch1(){
+            const isEnabled = switchIsEnabled.switch1
+            setSwitchIsEnabled({
+                ...switchIsEnabled,
+                switch1: !isEnabled
+            })
+        },
+        toggleSwitch2(){
+            const isEnabled = switchIsEnabled.switch2
+            setSwitchIsEnabled({
+                ...switchIsEnabled,
+                switch2: !isEnabled
+            })
+        },
+        toggleSwitch3(){
+            const isEnabled = switchIsEnabled.switch3
+            setSwitchIsEnabled({
+                ...switchIsEnabled,
+                switch3: !isEnabled
+            })
+        },
+        toggleSwitch4(){
+            const isEnabled = switchIsEnabled.switch4
+            setSwitchIsEnabled({
+                ...switchIsEnabled,
+                switch4: !isEnabled
+            })
+        },
+    }
+
+    const scheduleTest = [
+        { id: 1, hour: '04:00' },
+        { id: 2, hour: '10:00' },
+        { id: 3, hour: '16:00' },
+        { id: 4, hour: '22:00' }
+    ]
+
     const [ editable, setEditable ] = useState({
         editable: false,
         defaultText: values.petName,
@@ -71,49 +115,6 @@ export default function Pet({ navigation, route }) {
         
     }
 
-    function toggleSwitch(id,valor) {
-        let pos = -1;
-        for (let i = 0; i < items.length; i++) {
-            if (id === items[i].id){
-                pos = i;
-                break;
-            }
-        }
-             
-        setItems({
-            ...items,
-            ['valor']: valor
-    });
-
-    console.log(items)
-        
-    };
-    const [items, setItems] = useState([])
-    const isEnabled = () => {
-        setItems([
-            ...items,
-            {
-                id: 1,
-                horario: '22:00',
-                valor: true
-            },
-            {
-                id: 2,
-                horario: '22:00',
-                valor: true
-            },
-            {
-                id: 3,
-                horario: '22:00',
-                valor: true
-            },
-            {
-                id: 4,
-                horario: '22:00',
-                valor: true
-            }
-        ]);
-    };
     return(
         <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={Header.HEIGHT} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
             <Background>
@@ -168,18 +169,32 @@ export default function Pet({ navigation, route }) {
                 </View>
                 ) : (
                 <View style={{ flex: 3, width: '100%' }}>
-                    <Card title={'Defina os horários'}> 
-                        {
-                            items.map(item => (
-                                <ListItem key={item.id} title={item.horario} switch={{
-                                    trackColor:{false: "#767576", true: "#81b0ff"},
-                                    ios_backgroundColor:"#3e3e3e",
-                                    onValueChange:(valor) => toggleSwitch(item.id,valor),
-                                    value:item.valor
-                                }}/>
-                            ))
-                        }
-                    </Card>
+                  <Card title={'Defina os horários'}> 
+                      <ListItem title={scheduleTest[0].hour} switch={{
+                          trackColor:{false: "#767576", true: "#81b0ff"},
+                          ios_backgroundColor:"#3e3e3e",
+                          value: switchIsEnabled.switch1,
+                          onValueChange: toggleSwitch.toggleSwitch1,
+                      }}/>
+                      <ListItem title={scheduleTest[1].hour} switch={{
+                          trackColor:{false: "#767576", true: "#81b0ff"},
+                          ios_backgroundColor:"#3e3e3e",
+                          value: switchIsEnabled.switch2,
+                          onValueChange: toggleSwitch.toggleSwitch2,
+                      }}/>
+                      <ListItem title={scheduleTest[2].hour} switch={{
+                          trackColor:{false: "#767576", true: "#81b0ff"},
+                          ios_backgroundColor:"#3e3e3e",
+                          value: switchIsEnabled.switch3,
+                          onValueChange: toggleSwitch.toggleSwitch3,
+                      }}/>
+                      <ListItem title={scheduleTest[3].hour} switch={{
+                          trackColor:{false: "#767576", true: "#81b0ff"},
+                          ios_backgroundColor:"#3e3e3e",
+                          value: switchIsEnabled.switch4,
+                          onValueChange: toggleSwitch.toggleSwitch4,
+                      }}/>
+                  </Card>
                 </View>
                 )
                 }
