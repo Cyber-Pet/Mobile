@@ -14,11 +14,15 @@ export default function Home() {
   const [pets, setPets] = useState([])
 
   useEffect(() => {
-    api.get('/pets/user/' + userState.id)
+    const getPets = navigation.addListener('focus', () => {
+      api.get('/pets/user/' + userState.id)
       .then(response => {
         setPets(response.data.data)
       })
       .catch(erro => console.log(erro))
+    })
+
+    return getPets
   }, [])
 
   const navigateToPetPage = (petId, petName, petImage) => {

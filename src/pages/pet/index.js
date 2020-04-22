@@ -1,7 +1,7 @@
 import { Card, Avatar, ListItem } from 'react-native-elements'
 import { Header } from '@react-navigation/stack';
 import * as ImagePicker from 'expo-image-picker';
-import React, { useState, useEffect, useContext, componentWillMount } from 'react';
+import React, { useState, useContext } from 'react';
 import { 
     KeyboardAvoidingView, 
     View,
@@ -20,7 +20,6 @@ export default function Pet({ navigation, route }) {
     const { petId }  = route.params;
     const { petName } = route.params;
     const { petImage } = route.params;
-    const { scanned } = route.params;
     const [values, setValues] = useState({
         petName: petName,
         petImage: petImage,
@@ -32,6 +31,20 @@ export default function Pet({ navigation, route }) {
         switch1: false,
         switch2: false
     })
+    const [ editable, setEditable ] = useState({
+        editable: false,
+        defaultText: values.petName,
+        color: 'rgba(166,166,166,0.8)'
+
+    })
+
+    const scheduleTest = [
+        { id: 1, hour: '04:00' },
+        { id: 2, hour: '10:00' },
+        { id: 3, hour: '16:00' },
+        { id: 4, hour: '22:00' }
+    ]
+
 
     const toggleSwitch = {
         toggleSwitch1(){
@@ -64,19 +77,6 @@ export default function Pet({ navigation, route }) {
         },
     }
 
-    const scheduleTest = [
-        { id: 1, hour: '04:00' },
-        { id: 2, hour: '10:00' },
-        { id: 3, hour: '16:00' },
-        { id: 4, hour: '22:00' }
-    ]
-
-    const [ editable, setEditable ] = useState({
-        editable: false,
-        defaultText: values.petName,
-        color: 'rgba(166,166,166,0.8)'
-
-    })
 
     function changeToEditable() {
         setEditable({
