@@ -1,7 +1,7 @@
+import jwtDecode from 'jwt-decode';
 import React, { createContext, useEffect, useReducer } from 'react';
 import { AsyncStorage } from 'react-native';
 import api from '../services/api';
-import jwtDecode from 'jwt-decode';
 const UserContext = createContext();
 const AuthProvider = ({ children }) => {
   const { Provider } = UserContext;
@@ -58,7 +58,7 @@ const AuthProvider = ({ children }) => {
         userToken = await AsyncStorage.getItem('id_token');
         if (userToken != null) {
           decodedToken = jwtDecode(userToken);
-          dispatch({ type: 'RESTORE_TOKEN', token: userToken, userName: decodedToken.unique_name, userEmail: decodedToken.email, userId: decodedToken.Id })  
+          dispatch({ type: 'RESTORE_TOKEN', token: userToken, userName: decodedToken.unique_name, userEmail: decodedToken.email, userId: decodedToken.Id })
         }
       } catch (e) {
         console.log(e);
@@ -74,7 +74,7 @@ const AuthProvider = ({ children }) => {
           const response = await api.post('/auth/login', data)
           await AsyncStorage.setItem('id_token', response.data.data.token);
           let decodedToken = jwtDecode(response.data.data.token);
-          dispatch({ type: 'SIGN_IN', token: response.data.data.token, userName: decodedToken.unique_name, userEmail: decodedToken.email, userId: decodedToken.Id  });
+          dispatch({ type: 'SIGN_IN', token: response.data.data.token, userName: decodedToken.unique_name, userEmail: decodedToken.email, userId: decodedToken.Id });
         } catch (error) {
           dispatch({ type: 'ERROR', messages: error.response.data.errors });
         }
@@ -86,16 +86,15 @@ const AuthProvider = ({ children }) => {
       signUp: async data => {
         try {
           const response = await api.post('/auth/register', data);
-          const responseLogin = await api.post('/auth/login', { 
-            email: response.data.data.email, 
-            password: data.password 
+          const responseLogin = await api.post('/auth/login', {
+            email: response.data.data.email,
+            password: data.password
           });
           await AsyncStorage.setItem('id_token', responseLogin.data.data.token);
+          dispatch({ type: 'SIGN_IN', token: responseLogin.data.data.token, userName: decodedToken.unique_name, userEmail: decodedToken.email, userId: decodedToken.Id });
         } catch (error) {
           dispatch({ type: 'ERROR', messages: error.response.data.errors });
         }
-
-        dispatch({ type: 'SIGN_IN', token: responseLogin.data.data.token, userName: decodedToken.unique_name, userEmail: decodedToken.email, userId: decodedToken.Id });
       },
     }),
     []

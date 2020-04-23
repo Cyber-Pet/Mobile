@@ -1,7 +1,7 @@
 import axios from 'axios';
 import LottieView from "lottie-react-native";
 import React, { useContext, useEffect, useState } from 'react';
-import { KeyboardAvoidingView, View } from 'react-native';
+import { KeyboardAvoidingView, View, Vibration } from 'react-native';
 import { Background } from '../../components/Background';
 import PopUp from '../../components/PopUpView';
 import { StyledContainer } from '../../components/StyledContainer';
