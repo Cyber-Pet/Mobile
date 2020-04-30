@@ -40,7 +40,7 @@ const Header = ({ scene, previous, navigation }) => {
     return `https://www.gravatar.com/avatar/${md5(userState.email.toLowerCase())}`
   }
   useEffect(() => {
-    let profile = getGravatarProfileImage(userState.email)
+    let profile = getGravatarProfileImage()
     setprofileImageUrl(profile)
   }, [title])
 
