@@ -39,7 +39,7 @@ export default function Pet({ navigation, route }) {
     })
     const [ schedules, setSchedules ] = useState([])
     const [showTimePicker, setShowTimePicker] = useState(false)
-    const [ date, setDate ] = useState(Date.now())
+    const [ date, setDate ] = useState(new Date())    
 
 
     const getSchedules = () => {
@@ -110,18 +110,13 @@ export default function Pet({ navigation, route }) {
     const openTimePicker = () => {
         setShowTimePicker(true)
     }
-    
-        
 
     useEffect(() => {
+        getSchedules()
         return () => {
             setShowTimePicker(false)
             source.cancel()
         }
-    }, [])
-
-    useEffect(() => {
-        getSchedules()
     }, [showTimePicker, deleteSchedule])
 
 
@@ -130,7 +125,7 @@ export default function Pet({ navigation, route }) {
         {showTimePicker && (
             <DateTimePicker
             display='clock'
-            value={new Date}
+            value={date}
             mode='time'
             onChange={createSchedule}
             minuteInterval='15'
