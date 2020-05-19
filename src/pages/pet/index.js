@@ -15,13 +15,14 @@ import { UserContext } from '../../context/UserContext';
 import { StyledSubmitButton } from '../../components/StyledSubmitButton';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker'
+import axios from 'axios';
 
+const CancelToken = axios.CancelToken;
+const source = CancelToken.source();
 
 export default function Pet({ navigation, route }) {   
     const { userState } = useContext(UserContext)
-    const { petId }  = route.params;
-    const { petName } = route.params;   
-    const { petImage } = route.params;
+    const { petId , petName , petImage }  = route.params;
     const [values, setValues] = useState({
         petName: petName,
         petImage: petImage,
@@ -37,16 +38,12 @@ export default function Pet({ navigation, route }) {
 
     })
     const [ schedules, setSchedules ] = useState([])
-    const [ time, setTime ] = useState(new Date())
-    const [showTimePicker, setTimePicker] = useState(false)
-    const [ change, setChange ] = useState(false)
+    const [showTimePicker, setShowTimePicker] = useState(false)
+    const [ date, setDate ] = useState(Date.now())
 
-    function changeState() {
-        change ? setChange(false) : setChange(true)
-    }
 
-    async function getSchedules() {
-        await api.get(`/Schedule/pet/${petId}`)
+    const getSchedules = () => {
+        api.get(`/Schedule/pet/${petId}`,source.token)
         .then(response => {
             setSchedules(
                 response.data
@@ -54,26 +51,23 @@ export default function Pet({ navigation, route }) {
         .catch(erro => console.log(erro))
     }
 
-    useEffect(() => {
-        getSchedules()
-    }, [change])
-
     const deleteSchedule = async (id, index) => {
-        const response = await api.delete(`/Schedule/${id}`)
-        schedules.splice(index, 1)
-        changeState()
+        await api.delete(`/Schedule/${id}`,source.token).then(() => {
+        })
     }
 
     const createSchedule = async (event, selectedDate) => {
-        if(event.type == 'set') {
+        setDate(selectedDate)
+        if (event.type == "set") {
+            
             await api.post('/Schedule', {
                 petId,
                 hour: selectedDate.getHours(),
                 minutes: selectedDate.getMinutes()
-            })
-            changeState()
+            },
+            source.token)
         }
-        setTimePicker(false)
+        setShowTimePicker(false)
     }
     
 
@@ -108,13 +102,39 @@ export default function Pet({ navigation, route }) {
         await api.put('/Pets/' + values.id,{
             userId: values.userId,
             petImage: values.petImage,
-            petName: values.petName}).then(response => {
+            petName: values.petName},
+            source.token).then(response => {
                 console.log(response);
         })
     }
+    const openTimePicker = () => {
+        setShowTimePicker(true)
+    }
+    
+        
+
+    useEffect(() => {
+        return () => {
+            setShowTimePicker(false)
+            source.cancel()
+        }
+    }, [])
+
+    useEffect(() => {
+        getSchedules()
+    }, [showTimePicker, deleteSchedule])
+
 
     return(
-        
+        <>
+        {showTimePicker && (
+            <DateTimePicker
+            display='clock'
+            value={new Date}
+            mode='time'
+            onChange={createSchedule}
+            minuteInterval='15'
+        />)}
         <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={Header.HEIGHT} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
             <Background>
                 <View style={{ 
@@ -173,7 +193,7 @@ export default function Pet({ navigation, route }) {
                 ) : (
                 <View style={{ flex: 2, width: '100%'}}>
                     <Card title={
-                        <Button title={'Adicionar horário'} onPress={() => setTimePicker(true)}/>
+                        <Button title={'Adicionar horário'} onPress={openTimePicker}/>
                     }>
                         {schedules.length == 0 ? (
                             <StyledText> Não possuí horários </StyledText>
@@ -205,18 +225,8 @@ export default function Pet({ navigation, route }) {
                 )
                 }
             </Background>
-            {showTimePicker ? (
-                <DateTimePicker
-                display='clock'
-                value={time}
-                mode='time'
-                onChange={createSchedule}
-            />
-            ):(
-                undefined
-            )}
-
         </KeyboardAvoidingView>
+        </>
     )
 }
 
