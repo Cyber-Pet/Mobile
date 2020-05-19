@@ -35,7 +35,6 @@ export default function Pet({ navigation, route }) {
         editable: false,
         defaultText: values.petName,
         color: 'rgba(166,166,166,0.8)'
-
     })
     const [ schedules, setSchedules ] = useState([])
     const [showTimePicker, setShowTimePicker] = useState(false)
@@ -52,7 +51,9 @@ export default function Pet({ navigation, route }) {
     }
 
     const deleteSchedule = async (id, index) => {
-        await api.delete(`/Schedule/${id}`,source.token).then(() => {
+        setSchedules(schedules.filter(schedule => schedule.id !== id))
+        api.delete(`/Schedule/${id}`,source.token)
+        .then(() => {
         })
     }
 
@@ -113,11 +114,12 @@ export default function Pet({ navigation, route }) {
 
     useEffect(() => {
         getSchedules()
+
         return () => {
             setShowTimePicker(false)
             source.cancel()
         }
-    }, [showTimePicker, deleteSchedule])
+    }, [showTimePicker])
 
 
     return(

@@ -26,18 +26,11 @@ export default function Home() {
   }, [])
 
   const navigateToPetPage = (petId, petName, petImage) => {
-    let scanned = verifyIfHasBowl();
     navigation.navigate('pet', {
       petId: petId,
       petName: petName,
       petImage: petImage,
-      scanned: scanned
    })
-  }
-
-  function verifyIfHasBowl() {
-    let scanned = false;
-    return (scanned)
   }
 
   return (
