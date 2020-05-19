@@ -29,7 +29,7 @@ export default function Pet({ navigation, route }) {
         id: petId,
         scanned: true,
     })
-    
+
     const [ editable, setEditable ] = useState({
         editable: false,
         defaultText: values.petName,
@@ -48,7 +48,6 @@ export default function Pet({ navigation, route }) {
     async function getSchedules() {
         await api.get(`/Schedule/pet/${petId}`)
         .then(response => {
-            console.log(response.data)
             setSchedules(
                 response.data
         )})
@@ -63,17 +62,18 @@ export default function Pet({ navigation, route }) {
         const response = await api.delete(`/Schedule/${id}`)
         schedules.splice(index, 1)
         changeState()
-        console.log(response)
     }
 
     const createSchedule = async (event, selectedDate) => {
-        await api.post('/Schedule', {
-            petId,
-            hour: selectedDate.getHours(),
-            minutes: selectedDate.getMinutes()
-        })
+        if(event.type == 'set') {
+            await api.post('/Schedule', {
+                petId,
+                hour: selectedDate.getHours(),
+                minutes: selectedDate.getMinutes()
+            })
+            changeState()
+        }
         setTimePicker(false)
-        changeState()
     }
     
 
