@@ -1,10 +1,11 @@
-import { Card, Avatar, ListItem } from 'react-native-elements'
+import { Card, Avatar, ListItem, Icon } from 'react-native-elements'
 import { Header } from '@react-navigation/stack';
 import * as ImagePicker from 'expo-image-picker';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { 
     KeyboardAvoidingView, 
     View,
+    Button
 } from 'react-native';
 import { StyledInput } from '../../components/StyledInput'
 import { Background } from '../../components/Background';
@@ -13,12 +14,13 @@ import api from '../../services/api'
 import { UserContext } from '../../context/UserContext';
 import { StyledSubmitButton } from '../../components/StyledSubmitButton';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
+import DateTimePicker from '@react-native-community/datetimepicker'
 
 
 export default function Pet({ navigation, route }) {   
     const { userState } = useContext(UserContext)
     const { petId }  = route.params;
-    const { petName } = route.params;
+    const { petName } = route.params;   
     const { petImage } = route.params;
     const [values, setValues] = useState({
         petName: petName,
@@ -27,56 +29,53 @@ export default function Pet({ navigation, route }) {
         id: petId,
         scanned: true,
     })
-        const [switchIsEnabled, setSwitchIsEnabled] = useState({
-        switch1: false,
-        switch2: false
-    })
+    
     const [ editable, setEditable ] = useState({
         editable: false,
         defaultText: values.petName,
         color: 'rgba(166,166,166,0.8)'
 
     })
+    const [ schedules, setSchedules ] = useState([])
+    const [ time, setTime ] = useState(new Date())
+    const [showTimePicker, setTimePicker] = useState(false)
+    const [ change, setChange ] = useState(false)
 
-    const scheduleTest = [
-        { id: 1, hour: '04:00' },
-        { id: 2, hour: '10:00' },
-        { id: 3, hour: '16:00' },
-        { id: 4, hour: '22:00' }
-    ]
-
-
-    const toggleSwitch = {
-        toggleSwitch1(){
-            const isEnabled = switchIsEnabled.switch1
-            setSwitchIsEnabled({
-                ...switchIsEnabled,
-                switch1: !isEnabled
-            })
-        },
-        toggleSwitch2(){
-            const isEnabled = switchIsEnabled.switch2
-            setSwitchIsEnabled({
-                ...switchIsEnabled,
-                switch2: !isEnabled
-            })
-        },
-        toggleSwitch3(){
-            const isEnabled = switchIsEnabled.switch3
-            setSwitchIsEnabled({
-                ...switchIsEnabled,
-                switch3: !isEnabled
-            })
-        },
-        toggleSwitch4(){
-            const isEnabled = switchIsEnabled.switch4
-            setSwitchIsEnabled({
-                ...switchIsEnabled,
-                switch4: !isEnabled
-            })
-        },
+    function changeState() {
+        change ? setChange(false) : setChange(true)
     }
 
+    async function getSchedules() {
+        await api.get(`/Schedule/pet/${petId}`)
+        .then(response => {
+            console.log(response.data)
+            setSchedules(
+                response.data
+        )})
+        .catch(erro => console.log(erro))
+    }
+
+    useEffect(() => {
+        getSchedules()
+    }, [change])
+
+    const deleteSchedule = async (id, index) => {
+        const response = await api.delete(`/Schedule/${id}`)
+        schedules.splice(index, 1)
+        changeState()
+        console.log(response)
+    }
+
+    const createSchedule = async (event, selectedDate) => {
+        await api.post('/Schedule', {
+            petId,
+            hour: selectedDate.getHours(),
+            minutes: selectedDate.getMinutes()
+        })
+        setTimePicker(false)
+        changeState()
+    }
+    
 
     function changeToEditable() {
         setEditable({
@@ -111,11 +110,11 @@ export default function Pet({ navigation, route }) {
             petImage: values.petImage,
             petName: values.petName}).then(response => {
                 console.log(response);
-            })
-        
+        })
     }
 
     return(
+        
         <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={Header.HEIGHT} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
             <Background>
                 <View style={{ 
@@ -173,31 +172,27 @@ export default function Pet({ navigation, route }) {
                 </View>
                 ) : (
                 <View style={{ flex: 2, width: '100%'}}>
-                    <Card title={'Defina os horários'}> 
-                        <ListItem title={scheduleTest[0].hour} switch={{
-                            trackColor:{false: "#767576", true: "#81b0ff"},
-                            ios_backgroundColor:"#3e3e3e",
-                            value: switchIsEnabled.switch1,
-                            onValueChange: toggleSwitch.toggleSwitch1,
-                        }}/>
-                        <ListItem title={scheduleTest[1].hour} switch={{
-                            trackColor:{false: "#767576", true: "#81b0ff"},
-                            ios_backgroundColor:"#3e3e3e",
-                            value: switchIsEnabled.switch2,
-                            onValueChange: toggleSwitch.toggleSwitch2,
-                        }}/>
-                        <ListItem title={scheduleTest[2].hour} switch={{
-                            trackColor:{false: "#767576", true: "#81b0ff"},
-                            ios_backgroundColor:"#3e3e3e",
-                            value: switchIsEnabled.switch3,
-                            onValueChange: toggleSwitch.toggleSwitch3,
-                        }}/>
-                        <ListItem title={scheduleTest[3].hour} switch={{
-                            trackColor:{false: "#767576", true: "#81b0ff"},
-                            ios_backgroundColor:"#3e3e3e",
-                            value: switchIsEnabled.switch4,
-                            onValueChange: toggleSwitch.toggleSwitch4,
-                        }}/>
+                    <Card title={
+                        <Button title={'Adicionar horário'} onPress={() => setTimePicker(true)}/>
+                    }>
+                        {schedules.length == 0 ? (
+                            <StyledText> Não possuí horários </StyledText>
+                        ):(
+                            schedules.map((schedule, index) => {
+                               return (
+                                    <ListItem 
+                                        key={schedule.id} 
+                                        title={`${schedule.hour}:${schedule.minutes}`} 
+                                        rightIcon={
+                                            <Icon 
+                                                name='delete'
+                                                onPress={() => deleteSchedule(schedule.id, index)}
+                                            />
+                                        } 
+                                    />
+                                )
+                            })
+                        )}
                     </Card>
                     <View style={{ flex: 1, width: '100%', justifyContent: 'flex-end' }}>
                         <StyledSubmitButton style={{height: '60%'}} onPress={() => isEnabled()}>
@@ -210,6 +205,17 @@ export default function Pet({ navigation, route }) {
                 )
                 }
             </Background>
+            {showTimePicker ? (
+                <DateTimePicker
+                display='clock'
+                value={time}
+                mode='time'
+                onChange={createSchedule}
+            />
+            ):(
+                undefined
+            )}
+
         </KeyboardAvoidingView>
     )
 }
