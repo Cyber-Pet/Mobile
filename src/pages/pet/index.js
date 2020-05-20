@@ -157,7 +157,7 @@ export default function Pet({ navigation, route }) {
                             }}
                         />
                     </View>
-                    <View style={{ flex: 1, flexDirection:'row', alignItems: 'center', marginTop: 20 }}>
+                    <View style={{ flex: 1, flexDirection:'row', alignItems: 'flex-end', marginTop: 20 }}>
                         <StyledInput
                             defaultValue={`${petName}`}
                             height='30%'
@@ -167,12 +167,12 @@ export default function Pet({ navigation, route }) {
                             editable={ editable.editable } 
                             borderBottomWidth={'0px'}
                         />
-                        <FontAwesome.Button
+                        <Icon
                             underlayColor='rgba(166,166,166,0.2)'
-                            name='pencil'
+                            name='create'
                             color='rgba(99,99,99,0.9)'
                             backgroundColor='transparent'
-                            size={20}
+                            size={23}
                             onPress={ () => changeToEditable()} 
                         />
                     </View>
