@@ -207,7 +207,7 @@ export default function Pet({ navigation, route }) {
                                return (
                                     <ListItem 
                                         key={schedule.id} 
-                                        title={`${schedule.hour}:${schedule.minutes}`} 
+                                        title={`${schedule.hour < 10 ? `0${schedule.hour}` : schedule.hour}:${schedule.minutes < 10 ? `0${schedule.minutes}` : schedule.minutes}`} 
                                         rightIcon={
                                             <Icon 
                                                 name='delete'
@@ -220,7 +220,7 @@ export default function Pet({ navigation, route }) {
                         )}
                     </Card>
                     <View style={{ flex: 1, width: '100%', justifyContent: 'flex-end' }}>
-                        <StyledSubmitButton style={{height: '60%'}} onPress={() => isEnabled()}>
+                        <StyledSubmitButton style={{height: '60%'}} onPress={() => alert("Pet Alimentado!")}>
                             <StyledText>
                                 CLIQUE AQUI PARA ALIMENTAR SEU PET
                             </StyledText>
