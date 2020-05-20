@@ -28,7 +28,7 @@ export default function Pet({ navigation, route }) {
         petImage: petImage,
         userId: userState.id,
         id: petId,
-        scanned: true,
+        scanned: false,
     })
 
     const [ editable, setEditable ] = useState({

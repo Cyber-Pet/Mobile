@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Button, Alert } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import api from '../../services/api';
 
 export default function QrCodeReader({ navigation, route }) {
   const { petId } = route.params;
@@ -18,25 +19,37 @@ export default function QrCodeReader({ navigation, route }) {
     })();
   }, []);
 
+
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     setValues({
       ...values,
-      ["Id"]: data
+      ['Id']: data
     });
-    bowlLink();
-    navigation.goBack();
+    Alert.alert(
+      "Deu tudo certo =D",
+      `O pote ${data} foi scanneado com sucesso` ,
+      [
+        { text: "OK", onPress: () => bowlLink() }
+      ],
+      { cancelable: false }
+    );
+    
   };
 
   const bowlLink = async () => {
-    /*await api.put('/Bowl/' + Id, values.petId).then(response => {
+    const json = {
+      petId: values.petId
+      }
+      console.log(values.Id)
+      console.log(json)
+    await api.put('/Bowl/' + values.Id, json).then(response => {
+      console.log(response.status);
       const statusCode = response.status
       if (statusCode == 200) {
         navigation.goBack();
       }
-    }).catch(error => {
-      if (axios.isCancel(error)) return;
-    })*/
+    })
 
   }
 
@@ -59,7 +72,7 @@ export default function QrCodeReader({ navigation, route }) {
         style={StyleSheet.absoluteFillObject}
       />
 
-      {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+      {scanned && <Button title={'Clique para scannear novamente'} onPress={() => setScanned(false)} />}
     </View>
   );
 }
