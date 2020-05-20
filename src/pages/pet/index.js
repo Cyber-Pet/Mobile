@@ -5,7 +5,6 @@ import React, { useState, useContext, useEffect } from 'react';
 import { 
     KeyboardAvoidingView, 
     View,
-    Button
 } from 'react-native';
 import { StyledInput } from '../../components/StyledInput'
 import { Background } from '../../components/Background';
@@ -13,7 +12,7 @@ import { StyledText } from '../../components/StyledText';
 import api from '../../services/api'
 import { UserContext } from '../../context/UserContext';
 import { StyledSubmitButton } from '../../components/StyledSubmitButton';
-import { AntDesign, FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker'
 import axios from 'axios';
 import CustomActivityIndicator from '../../components/CustomActivityIndicator';
@@ -150,7 +149,7 @@ export default function Pet({ navigation, route }) {
                             activeOpacity={0.5}
                             rounded
                             size={120}
-                            showEditButton
+                            showAccessory
                             icon={{name: 'pets', type: 'material-design'}}
                             source={{
                                 uri: `data:image/png;base64,${values.petImage}`
