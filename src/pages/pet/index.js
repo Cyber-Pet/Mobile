@@ -57,16 +57,17 @@ export default function Pet({ navigation, route }) {
         })
     }
 
-    const createSchedule = async (event, selectedDate) => {
-        setDate(selectedDate)
+    const createSchedule = (event, selectedDate) => {
         if (event.type == "set") {
-            
-            await api.post('/Schedule', {
+            api.post('/Schedule', {
                 petId,
                 hour: selectedDate.getHours(),
                 minutes: selectedDate.getMinutes()
             },
             source.token)
+            .then(() => {
+                setShowTimePicker(false)
+            })
         }
         setShowTimePicker(false)
     }
