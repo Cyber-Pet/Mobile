@@ -201,7 +201,9 @@ export default function Pet({ navigation, route }) {
                                 alignItems: 'flex-end',
                                 paddingBottom: 20,
                                 flexDirection: 'row',
-                                justifyContent: 'flex-end'
+                                justifyContent: 'flex-end',
+                                borderBottomColor: '#D3D3D3',
+                                borderBottomWidth: 1
                             }}
                         >
                         <StyledSubmitButton 
@@ -224,20 +226,28 @@ export default function Pet({ navigation, route }) {
                             > 
                                 Adicionar Horário 
                             </StyledText>
-                            <Icon color='#fff' name='add'></Icon>
+                            <Icon size={17} color='#fff' name='add'></Icon>
                         </StyledSubmitButton>
                         <CustomActivityIndicator loading={loading}></CustomActivityIndicator>
                         </View>
                     }>
                         {schedules.length == 0 ? (
-                            <>
-                            <StyledText> Não possuí horários </StyledText>
-                            <CustomActivityIndicator loading={loading}></CustomActivityIndicator>
-                            </>
+                            <View 
+                                style={{
+                                    alignItems: 'center',
+                                    paddingTop: 20
+                                }}
+                            >
+                                <StyledText> Sem horários cadastrados </StyledText>
+                            </View>
                         ):(
                             schedules.map((schedule, index) => {
                                return (
-                                    <ListItem 
+                                    <ListItem
+                                        style={{
+                                            borderBottomColor: '#D3D3D3',
+                                            borderBottomWidth: 1
+                                        }} 
                                         key={schedule.id} 
                                         title={`${schedule.hour < 10 ? `0${schedule.hour}` : schedule.hour}:${schedule.minutes < 10 ? `0${schedule.minutes}` : schedule.minutes}`} 
                                         rightIcon={
