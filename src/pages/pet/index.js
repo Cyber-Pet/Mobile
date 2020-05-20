@@ -65,11 +65,11 @@ export default function Pet({ navigation, route }) {
                 minutes: selectedDate.getMinutes()
             },
             source.token)
-            .then(() => {
-                setShowTimePicker(false)
-            })
+            .then(() => setShowTimePicker(false))
+        } else {
+            setShowTimePicker(false)
         }
-        setShowTimePicker(false)
+        
     }
     
 
@@ -117,7 +117,6 @@ export default function Pet({ navigation, route }) {
         getSchedules()
 
         return () => {
-            setShowTimePicker(false)
             source.cancel()
         }
     }, [showTimePicker])
