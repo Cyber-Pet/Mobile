@@ -30,7 +30,6 @@ export default function Pet({ navigation, route }) {
         petImage: petImage,
         userId: userState.id,
         id: petId,
-        scanned: true,
     })
 
     const [ editable, setEditable ] = useState({
@@ -41,7 +40,6 @@ export default function Pet({ navigation, route }) {
     const [ schedules, setSchedules ] = useState([])
     const [showTimePicker, setShowTimePicker] = useState(false)
     const [ date, setDate ] = useState(new Date())    
-
 
     const getSchedules = () => {
         api.get(`/Schedule/pet/${petId}`,source.token)
@@ -139,7 +137,6 @@ export default function Pet({ navigation, route }) {
         />)}
         <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={Header.HEIGHT} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
             <Background>
-            <CustomActivityIndicator loading={loading}></CustomActivityIndicator>
                 <View style={{ 
                     flex: 1, 
                     width: '80%', 
@@ -182,6 +179,7 @@ export default function Pet({ navigation, route }) {
                 </View>
                 {bowlId == null || bowlId == undefined ? (
                 <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center', marginTop: '10%'}}>
+                    <CustomActivityIndicator loading={loading}></CustomActivityIndicator>
                     <StyledText> Clique no ícone abaixo para vincular seu pote: </StyledText>
                     <AntDesign.Button 
                         name='qrcode' 
@@ -198,10 +196,44 @@ export default function Pet({ navigation, route }) {
                 ) : (
                 <View style={{ flex: 2, width: '100%'}}>
                     <Card title={
-                        <Button title={'Adicionar horário'} onPress={openTimePicker}/>
+                        <View 
+                            style={{
+                                alignItems: 'flex-end',
+                                paddingBottom: 20,
+                                flexDirection: 'row',
+                                justifyContent: 'flex-end'
+                            }}
+                        >
+                        <StyledSubmitButton 
+                            style={{
+                                backgroundColor: '#3395FF',
+                                flexDirection: 'row',
+                                justifyContent: 'flex-end',
+                                paddingRight: 10,
+                                width: 180,
+                                height: 30
+                            }} 
+                            title={'Adicionar horário'} 
+                            onPress={openTimePicker}
+                        >
+                            <StyledText 
+                                style={{
+                                    color: '#fff',
+                                    paddingRight: 10,
+                                }}  
+                            > 
+                                Adicionar Horário 
+                            </StyledText>
+                            <Icon color='#fff' name='add'></Icon>
+                        </StyledSubmitButton>
+                        <CustomActivityIndicator loading={loading}></CustomActivityIndicator>
+                        </View>
                     }>
                         {schedules.length == 0 ? (
+                            <>
                             <StyledText> Não possuí horários </StyledText>
+                            <CustomActivityIndicator loading={loading}></CustomActivityIndicator>
+                            </>
                         ):(
                             schedules.map((schedule, index) => {
                                return (
