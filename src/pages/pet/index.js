@@ -24,7 +24,7 @@ const source = CancelToken.source();
 export default function Pet({ navigation, route }) {   
     const [loading, setLoading] = useState(false)
     const { userState } = useContext(UserContext)
-    const { petId , petName , petImage }  = route.params;
+    const { petId , petName , petImage, bowlId }  = route.params;
     const [values, setValues] = useState({
         petName: petName,
         petImage: petImage,
@@ -180,7 +180,7 @@ export default function Pet({ navigation, route }) {
                         />
                     </View>
                 </View>
-                {values.scanned == false ? (
+                {bowlId == null || bowlId == undefined ? (
                 <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center', marginTop: '10%'}}>
                     <StyledText> Clique no ícone abaixo para vincular seu pote: </StyledText>
                     <AntDesign.Button 
@@ -189,7 +189,9 @@ export default function Pet({ navigation, route }) {
                         backgroundColor="transparent" 
                         size={150} 
                         onPress={() => navigation.navigate('qrCodeReader', {
-                            petId: petId
+                            petId,
+                            petName,
+                            petImage
                         })}
                     />
                 </View>

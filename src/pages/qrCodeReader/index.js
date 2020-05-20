@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button, Alert } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import api from '../../services/api';
+import { ActivityIndicator } from 'react-native-paper';
+import CustomActivityIndicator from '../../components/CustomActivityIndicator';
 
 export default function QrCodeReader({ navigation, route }) {
-  const { petId } = route.params;
+  const { petId, petName, petImage } = route.params;
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const [values, setValues] = useState({
-    petId: petId,
-    Id:null
-  })
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     (async () => {
@@ -21,37 +20,34 @@ export default function QrCodeReader({ navigation, route }) {
 
 
   const handleBarCodeScanned = ({ type, data }) => {
+    setLoading(true)
     setScanned(true);
-    setValues({
-      ...values,
-      ['Id']: data
-    });
-    Alert.alert(
-      "Deu tudo certo =D",
-      `O pote ${data} foi scanneado com sucesso` ,
-      [
-        { text: "OK", onPress: () => bowlLink() }
-      ],
-      { cancelable: false }
-    );
+    api.put('/Bowl/' + data, {petId})
+    .then(response => {
+      console.log(response.status);
+      setLoading(false)
+      if (response.status == 200) {
+        navigation.navigate('pet', {
+          petId,
+          petName,
+          petImage,
+          bowlId: data
+       })
+      } else {
+        Alert.alert(
+          "Opss! Algo de errado não esta certo!",
+          `ocorreu uma falha ao escanear o pote: ${data} ` ,
+          [
+            { text: "OK", onPress: () => navigation.goBack() }
+          ],
+          { cancelable: false }
+        );
+      }
+    })
+    
     
   };
 
-  const bowlLink = async () => {
-    const json = {
-      petId: values.petId
-      }
-      console.log(values.Id)
-      console.log(json)
-    await api.put('/Bowl/' + values.Id, json).then(response => {
-      console.log(response.status);
-      const statusCode = response.status
-      if (statusCode == 200) {
-        navigation.goBack();
-      }
-    })
-
-  }
 
   if (hasPermission === null) {
     return <Text>Solicitando acesso a camera!</Text>;
@@ -67,6 +63,7 @@ export default function QrCodeReader({ navigation, route }) {
         flexDirection: 'column',
         justifyContent: 'flex-end',
       }}>
+        <CustomActivityIndicator loading={loading}/>
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}

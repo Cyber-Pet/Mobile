@@ -29,11 +29,12 @@ export default function Home() {
     return getPets
   }, [])
 
-  const navigateToPetPage = (petId, petName, petImage) => {
+  const navigateToPetPage = (petId, petName, petImage, bowlId) => {
     navigation.navigate('pet', {
       petId: petId,
       petName: petName,
       petImage: petImage,
+      bowlId
    })
   }
 
@@ -51,7 +52,7 @@ export default function Home() {
               key={pets.id}
               title={pets.petName}
               chevron
-              onPress={() => navigateToPetPage(pets.id,pets.petName,pets.petImage)}
+              onPress={() => navigateToPetPage(pets.id,pets.petName,pets.petImage, pets.bowlId)}
             />
           ))
         }
