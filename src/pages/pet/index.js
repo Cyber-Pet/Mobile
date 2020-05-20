@@ -16,11 +16,13 @@ import { StyledSubmitButton } from '../../components/StyledSubmitButton';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker'
 import axios from 'axios';
+import CustomActivityIndicator from '../../components/CustomActivityIndicator';
 
 const CancelToken = axios.CancelToken;
 const source = CancelToken.source();
 
 export default function Pet({ navigation, route }) {   
+    const [loading, setLoading] = useState(false)
     const { userState } = useContext(UserContext)
     const { petId , petName , petImage }  = route.params;
     const [values, setValues] = useState({
@@ -28,7 +30,7 @@ export default function Pet({ navigation, route }) {
         petImage: petImage,
         userId: userState.id,
         id: petId,
-        scanned: false,
+        scanned: true,
     })
 
     const [ editable, setEditable ] = useState({
@@ -44,16 +46,18 @@ export default function Pet({ navigation, route }) {
     const getSchedules = () => {
         api.get(`/Schedule/pet/${petId}`,source.token)
         .then(response => {
-            setSchedules(
-                response.data
-        )})
+            setSchedules(response.data)
+            setLoading(false)
+        })
         .catch(erro => console.log(erro))
     }
 
     const deleteSchedule = async (id, index) => {
+        setLoading(true)
         setSchedules(schedules.filter(schedule => schedule.id !== id))
         api.delete(`/Schedule/${id}`,source.token)
         .then(() => {
+            setLoading(false)
         })
     }
 
@@ -114,6 +118,7 @@ export default function Pet({ navigation, route }) {
     }
 
     useEffect(() => {
+        setLoading(true)
         getSchedules()
 
         return () => {
@@ -134,6 +139,7 @@ export default function Pet({ navigation, route }) {
         />)}
         <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={Header.HEIGHT} behavior={Platform.OS == "ios" ? "padding" : "height"} enabled>
             <Background>
+            <CustomActivityIndicator loading={loading}></CustomActivityIndicator>
                 <View style={{ 
                     flex: 1, 
                     width: '80%', 

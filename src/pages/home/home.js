@@ -7,17 +7,21 @@ import { AddButton } from '../../components/AddButton'
 import { Background } from '../../components/Background'
 import { UserContext } from '../../context/UserContext'
 import api from '../../services/api'
+import CustomActivityIndicator from '../../components/CustomActivityIndicator'
 
 export default function Home() {
   const { userState } = useContext(UserContext)
   const navigation = useNavigation();
   const [pets, setPets] = useState([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    setLoading(true)
     const getPets = navigation.addListener('focus', () => {
       api.get('/pets/user/' + userState.id)
       .then(response => {
         setPets(response.data.data)
+        setLoading(false)
       })
       .catch(erro => console.log(erro))
     })
@@ -35,6 +39,7 @@ export default function Home() {
 
   return (
     <Background>
+      <CustomActivityIndicator loading={loading}></CustomActivityIndicator>
       <ScrollView style={{ width: '100%' }}>
         {
           pets.map((pets) => (
