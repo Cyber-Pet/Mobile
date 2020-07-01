@@ -73,6 +73,10 @@ export default function Pet({ navigation, route }) {
         
     }
     
+    const feedPet = () => {
+        api.post(`/pet/${values.id}/feed`)
+            .then(() => alert("Pet Alimentado!"))
+    }
 
     function changeToEditable() {
         setEditable({
@@ -261,7 +265,7 @@ export default function Pet({ navigation, route }) {
                         )}
                     </Card>
                     <View style={{ flex: 1, width: '100%', justifyContent: 'flex-end' }}>
-                        <StyledSubmitButton style={{height: '60%'}} onPress={() => alert("Pet Alimentado!")}>
+                        <StyledSubmitButton style={{height: '60%'}} onPress={feedPet}>
                             <StyledText>
                                 CLIQUE AQUI PARA ALIMENTAR SEU PET
                             </StyledText>
