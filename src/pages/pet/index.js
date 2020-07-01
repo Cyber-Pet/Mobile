@@ -74,7 +74,8 @@ export default function Pet({ navigation, route }) {
     }
     
     const feedPet = () => {
-        api.post(`/pet/${values.id}/feed`)
+        console.log(values.id);
+        api.post(`/pets/${values.id}/feed`)
             .then(() => alert("Pet Alimentado!"))
     }
 
